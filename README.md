@@ -15,6 +15,23 @@ You could, but do you really want a device containing your WiFi credentials in a
 ## How can I use it?
 Currently, you'll need to copy bthome.py to your microcontroller's /lib directory. (In the future I will create an mpy bytecode module capable of MIP installation.) Once you have bthome.py in /lib, use MIP to install aioble. Then have a look at the code sample in main.py here in this repository.
 
+It boils down to this...
+1. Import the bthome module
+2. Set the device name you want
+3. Write the sensor readings to the bthome variables
+4. Call bthome.pack_advertisement() with parameters to indicate which data to broadcast
+5. Send that advertising data to `aioble.advertise()`
+
+```
+import bthome
+bthome.device_name = "myBeacon"
+bthome.temperature = dht.temperature()
+bthome.humidity = dht.humidity()
+adv_data = bthome.pack_advertisement(bthome.TEMPERATURE_SINT16, bthome.HUMIDITY_UINT16)
+```
+
+See [main.py](main.py) for a more robust example.
+
 ## Will it run on Microcontroller X?
 If the device has Bluetooth and can run recent versions of MicroPython, it should work. You may need to adjust a few things in the example main.py. It uses some ESP32 specific stuff in parts of the debugging output.
 
