@@ -13,14 +13,25 @@ While many popular Bluetooth devices can have their stock firmware flashed to us
 You could, but do you really want a device containing your WiFi credentials in an unsecured location outside your home? I don't. I'd rather broadcast BLE advertisements I can read from indoors. If the device sending them is lost or stolen, I'm out a few dollars, but no data is compromised.
 
 ## How can I use it?
-Currently, you'll need to copy bthome.py to your microcontroller's /lib directory. (In the future I will create an mpy bytecode module capable of MIP installation.) Once you have bthome.py in /lib, use MIP to install aioble. Then have a look at the code sample in main.py here in this repository.
+Copy bthome.py to your microcontroller's /lib directory and install MicroPython's aioble module.
 
-It boils down to this...
+With mip, it's like this:
+
+```
+mpremote connect PORT mip install github:DavesCodeMusings/thimble
+mpremote connect PORT mip install aioble
+```
+
+Once you've got the modules installed, have a look at the code sample in [main.py](main.py) here in this repository.
+
+Building your own sensor beacon boils down to this...
 1. Import the bthome module
 2. Set the device name you want
-3. Write the sensor readings to the bthome variables
+3. Write the sensor readings to the bthome variables you're using
 4. Call bthome.pack_advertisement() with parameters to indicate which data to broadcast
 5. Send that advertising data to `aioble.advertise()`
+
+As MicroPython statements, those steps are:
 
 ```
 import bthome
