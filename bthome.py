@@ -24,6 +24,10 @@ PRESSURE_UINT24 = const(0x04)
 _PRESSURE_UINT24_SCALING = const(100)
 ILLUMINANCE_UINT24 = const(0x05)
 _ILLUMINANCE_UINT24_SCALING = const(100)
+MASS_KG_UINT16 = const(0x06)
+_MASS_KG_UINT16_SCALING = const(100)
+MASS_LB_UINT16 = const(0x07)
+_MASS_LB_UINT16_SCALING = const(100)
 
 # Default value decimal places indicate precision
 device_name = "BTHome-MPY"
@@ -32,6 +36,7 @@ temperature = 0.00  # degrees Celsius
 humidity = 0.00     # percent (relative humidity)
 pressure = 0.00     # hectoPascals (millibars)
 illuminance = 0.0   # Lux
+mass = 0.00         # kg or lb
 
 def _pack_device_name():
     assert len(device_name) > 0
@@ -53,6 +58,10 @@ def _pack_bthome_data(object_id):
         bthome_bytes = pack('<BL', PRESSURE_UINT24, round(pressure * _PRESSURE_UINT24_SCALING))[:-1]
     elif object_id == ILLUMINANCE_UINT24:
         bthome_bytes = pack('<BL', ILLUMINANCE_UINT24, round(illuminance * _ILLUMINANCE_UINT24_SCALING))[:-1]
+    elif object_id == MASS_KG_UINT16:
+        bthome_bytes = pack('<Bh', MASS_KG_UINT16, round(mass * _MASS_KG_UINT16_SCALING))
+    elif object_id == MASS_LB_UINT16:
+        bthome_bytes = pack('<Bh', MASS_LB_UINT16, round(mass * _MASS_LB_UINT16_SCALING))
     else:
         bthome_bytes = bytes()
     print("Packing with data:", bthome_bytes.hex().upper())
