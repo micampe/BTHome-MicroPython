@@ -41,37 +41,22 @@ def _pack_device_name():
     device_name_bytes = bytes([len(device_name_bytes)]) + device_name_bytes
     return device_name_bytes
 
-# Functions to conver integer or float values to little endian fixed-point decimal
-def _pack_battery():
-    return pack('BB', BATTERY_UINT8, battery)
-
-def _pack_temperature(object_id):
-    if object_id == TEMPERATURE_SINT16:
-        temperature_bytes = pack('<Bh', TEMPERATURE_SINT16, round(temperature * _TEMPERATURE_SINT16_SCALING))
+# The BTHome object ID determines the number of bytes and fixed point decimal multiplier.
+def _pack_bthome_data(object_id):
+    if object_id == BATTERY_UINT8:
+        bthome_bytes = pack('BB', BATTERY_UINT8, battery)
+    elif object_id == TEMPERATURE_SINT16:
+        bthome_bytes = pack('<Bh', TEMPERATURE_SINT16, round(temperature * _TEMPERATURE_SINT16_SCALING))
+    elif object_id == HUMIDITY_UINT16:
+        bthome_bytes = pack('<Bh', HUMIDITY_UINT16, round(humidity * _HUMIDITY_UINT16_SCALING))
+    elif object_id == PRESSURE_UINT24:
+        bthome_bytes = pack('<BL', PRESSURE_UINT24, round(pressure * _PRESSURE_UINT24_SCALING))[:-1]
+    elif object_id == ILLUMINANCE_UINT24:
+        bthome_bytes = pack('<BL', ILLUMINANCE_UINT24, round(illuminance * _ILLUMINANCE_UINT24_SCALING))[:-1]
     else:
-        temperature_bytes = bytes()
-    return temperature_bytes
-
-def _pack_humidity(object_id):
-    if object_id == HUMIDITY_UINT16:
-        humidity_bytes = pack('<Bh', HUMIDITY_UINT16, round(humidity * _HUMIDITY_UINT16_SCALING))
-    else:
-        humidity_bytes = bytes()
-    return humidity_bytes
-
-def _pack_pressure(object_id):
-    if object_id == PRESSURE_UINT24:
-        pressure_bytes = pack('<BL', PRESSURE_UINT24, round(pressure * _PRESSURE_UINT24_SCALING))[:-1]
-    else:
-        pressure_bytes = bytes()
-    return pressure_bytes
-
-def _pack_illuminance(object_id):
-    if object_id == ILLUMINANCE_UINT24:
-        illuminance_bytes = pack('<BL', ILLUMINANCE_UINT24, round(illuminance * _ILLUMINANCE_UINT24_SCALING))[:-1]
-    else:
-        illuminance_bytes = bytes()
-    return illuminance_bytes
+        bthome_bytes = bytes()
+    print("Packing with data:", bthome_bytes.hex().upper())
+    return bthome_bytes
 
 # Concatenate an arbitrary number of sensor readings using parameters of sensor data constants to indicate what's included.
 def _pack_service_data(*args):
@@ -79,16 +64,7 @@ def _pack_service_data(*args):
     service_data_bytes += pack('<h', _SERVICE_UUID16)
     service_data_bytes += pack('B', _DEVICE_INFO_FLAGS)
     for object_id in args:
-        if object_id == BATTERY_UINT8:
-            service_data_bytes += _pack_battery()
-        if object_id == TEMPERATURE_SINT16:
-            service_data_bytes += _pack_temperature(TEMPERATURE_SINT16)
-        if object_id == HUMIDITY_UINT16:
-            service_data_bytes += _pack_humidity(HUMIDITY_UINT16)
-        if object_id == PRESSURE_UINT24:
-            service_data_bytes += _pack_pressure(PRESSURE_UINT24)
-        if object_id == ILLUMINANCE_UINT24:
-            service_data_bytes += _pack_illuminance(ILLUMINANCE_UINT24)
+        service_data_bytes += _pack_bthome_data(object_id)
     service_data_bytes = pack('B', len(service_data_bytes)) + service_data_bytes
     return service_data_bytes
 
