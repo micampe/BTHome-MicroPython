@@ -20,19 +20,14 @@ print(bthome.device_name)
 print(hexlify(bluetooth_mac, ':').decode().upper())
 
 async def read_sensor():
-    bthome.temperature = 25
+    bthome.temperature = 25  # Mocked up data for testing purposes.
     bthome.humidity = 50.55
-    print(f"BTHome flags: {bthome._ADVERT_FLAGS.hex().upper()}")
-    print(f"Device name: {bthome._pack_device_name().hex().upper()}")
-    print(f"Temperature data: {bthome._pack_temperature(bthome.TEMPERATURE_SINT16).hex().upper()}")
-    print(f"Humidity data: {bthome._pack_humidity(bthome.HUMIDITY_UINT16).hex().upper()}")
-    print(f"BTHome advertisement: {bthome.pack_advertisement(bthome.TEMPERATURE_SINT16, bthome.HUMIDITY_UINT16).hex().upper()}")
     await asyncio.sleep(AWAKE_TIME_SECS)
     print("Going to sleep.")
     deepsleep(SLEEP_TIME_SECS * 1000)  # Helps mitigate sensor self-heating.
 
 async def communicate_readings():
-    print("Advertising availability of data.")
+    print("Constructing advertising payload")
     while True:
         async with await aioble.advertise(
             BLE_ADV_INTERVAL_uS,
