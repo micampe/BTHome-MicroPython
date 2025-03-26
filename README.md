@@ -18,7 +18,7 @@ Copy bthome.py to your microcontroller's /lib directory and install MicroPython'
 With mip, it's like this:
 
 ```
-mpremote connect PORT mip install github:DavesCodeMusings/thimble
+mpremote connect PORT mip install github:DavesCodeMusings/BTHome-MicroPython
 mpremote connect PORT mip install aioble
 ```
 
