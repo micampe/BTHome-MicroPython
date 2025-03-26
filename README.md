@@ -13,13 +13,13 @@ While many popular Bluetooth devices can have their stock firmware flashed to us
 You could, but do you really want a device containing your WiFi credentials in an unsecured location outside your home? I don't. I'd rather broadcast BLE advertisements I can read from indoors. If the device sending them is lost or stolen, I'm out a few dollars, but no data is compromised.
 
 ## How can I use it?
-Copy bthome.py to your microcontroller's /lib directory and install MicroPython's aioble module.
+Copy bthome.py (or bthome.mpy) to your microcontroller's /lib directory and install MicroPython's aioble module (specifically the peripheral portion, but you can also install the entire module.)
 
 With mip, it's like this:
 
 ```
 mpremote connect PORT mip install github:DavesCodeMusings/BTHome-MicroPython
-mpremote connect PORT mip install aioble
+mpremote connect PORT mip install aioble-peripheral
 ```
 
 Once you've got the modules installed, have a look at the code sample in [main.py](main.py) here in this repository.
