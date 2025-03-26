@@ -28,14 +28,11 @@ async def read_sensor():
 
 async def communicate_readings():
     print("Constructing advertising payload")
-    while True:
-        async with await aioble.advertise(
-            BLE_ADV_INTERVAL_uS,
-            adv_data = bthome.pack_advertisement(bthome.TEMPERATURE_SINT16, bthome.HUMIDITY_UINT16)
-        ) as connection:
-            print("Client connect:", connection.device)
-            await connection.disconnected(timeout_ms=None)
-            print("Client disconnect.")
+    await aioble.advertise(
+        BLE_ADV_INTERVAL_uS,
+        adv_data = bthome.pack_advertisement(bthome.TEMPERATURE_SINT16, bthome.HUMIDITY_UINT16),
+        connectable = False
+    )
 
 
 async def main():
