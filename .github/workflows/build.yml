@@ -1,7 +1,7 @@
 name: mpy build
 on: push
 env:
-  SRC_FILE: bthome.py
+  SRC_FILE: src/bthome.py
 permissions:
   contents: write
 jobs:
