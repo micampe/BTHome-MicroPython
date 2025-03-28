@@ -17,7 +17,7 @@ jobs:
       - name: Compiling bytecode...
         run: |
           pip3 install mpy-cross
-          python3 -m mpy_cross $SRC_FILE
+          python3 -m mpy_cross $SRC_FILE -o ../bthome.mpy
       - name: Committing changes...
         run: |
           if [ $(git diff | wc -l) -gt 0 ]; then
