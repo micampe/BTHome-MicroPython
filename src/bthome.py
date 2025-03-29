@@ -28,6 +28,11 @@ PRESSURE_UINT24 = const(0x04)
 ILLUMINANCE_UINT24 = const(0x05)
 MASS_KG_UINT16 = const(0x06)
 MASS_LB_UINT16 = const(0x07)
+DEWPOINT_SINT16 = const(0x08)
+COUNT_UINT8 = const(0x09)
+ENERGY_UINT24 = const(0x0A)
+POWER_UINT24 = const(0x0B)
+VOLTAGE_UINT16 = const(0x0C)
 
 # Default value decimal places hint at precision
 battery = 0  # percent
@@ -36,6 +41,11 @@ humidity = 0.00  # percent (relative humidity)
 pressure = 0.00  # hectoPascals (millibars)
 illuminance = 0.00  # Lux
 mass = 0.00  # kg or lb
+dewpoint = 0.00  # degrees
+count = 0  # integer
+energy = 0.000  # kWh
+power = 0.00  # W
+voltage = 0.000  # V
 device_name = "BTHome-MPY"  # Limit to 10 characters
 
 
@@ -63,9 +73,19 @@ def _pack_uint16_x100(object_id, value):
     return pack("<BH", object_id, round(value * 100))
 
 
+# 16-bit unsigned integer with scalling of 1000 (3 decimal places)
+def _pack_uint16_x1000(object_id, value):
+    return pack("<BH", object_id, round(value * 1000))
+
+
 # 24-bit unsigned integer with scaling of 100 (2 decimal places)
 def _pack_uint24_x100(object_id, value):
     return pack("<BL", object_id, round(value * 100))[:-1]
+
+
+# 24-bit unsigned integer with scaling of 1000 (3 decimal places)
+def _pack_uint24_x1000(object_id, value):
+    return pack("<BL", object_id, round(value * 1000))[:-1]
 
 
 # The BTHome object ID determines the number of bytes and fixed point decimal multiplier.
@@ -84,6 +104,16 @@ def _pack_bthome_data(object_id):
         bthome_bytes = _pack_uint24_x100(MASS_KG_UINT16, mass)
     elif object_id == MASS_LB_UINT16:
         bthome_bytes = _pack_uint24_x100(MASS_LB_UINT16, mass)
+    elif object_id == DEWPOINT_SINT16:
+        bthome_bytes = _pack_sint16_x100(DEWPOINT_SINT16, dewpoint)
+    elif object_id == COUNT_UINT8:
+        bthome_bytes = _pack_uint8_x1(COUNT_UINT8, count)
+    elif object_id == ENERGY_UINT24:
+        bthome_bytes = _pack_uint24_x1000(ENERGY_UINT24, energy)
+    elif object_id == POWER_UINT24:
+        bthome_bytes = _pack_uint24_x100(POWER_UINT24, power)
+    elif object_id == VOLTAGE_UINT16:
+        bthome_bytes = _pack_uint16_x1000(VOLTAGE_UINT16, voltage)
     else:
         bthome_bytes = bytes()
     print("Packing with data:", bthome_bytes.hex().upper())
