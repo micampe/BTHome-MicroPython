@@ -13,10 +13,10 @@ Object id,Property,Data type,Factor,Example,Result,Unit
 0x0C,voltage,uint16 (2 bytes),0.001,0C020C,3.074,V
 0x0D,pm2.5,uint16 (2 bytes),1,0D120C,3090,ug/m3
 0x0E,pm10,uint16 (2 bytes),1,0E021C,7170,ug/m3
-0x12,co2,uint16 (2 bytes),1,1.2E+205,1250,ppm
+0x12,co2,uint16 (2 bytes),1,12E204,1250,ppm
 0x13,tvoc,uint16 (2 bytes),1,133301,307,ug/m3
 0x14,moisture,uint16 (2 bytes),0.01,14020C,30.74,%
-0x2E,humidity,uint8 (1 byte),1,2E+023,35,%
+0x2E,humidity,uint8 (1 byte),1,2E23,35,%
 0x2F,moisture,uint8 (1 byte),1,2F23,35,%
 0x3D,count,uint16 (2 bytes),1,3D0960,24585,
 0x3E,count,uint32 (4 bytes),1,3E2A2C0960,1611213866,
@@ -24,8 +24,8 @@ Object id,Property,Data type,Factor,Example,Result,Unit
 0x40,distance (mm),uint16 (2 bytes),1,400C00,12,mm
 0x41,distance (m),uint16 (2 bytes),0.1,414,7.8,m
 0x42,duration,uint24 (3 bytes),0.001,424E3400,13.39,s
-0x43,current,uint16 (2 bytes),0.001,4.34E+036,13.39,A
-0x44,speed,uint16 (2 bytes),0.01,4.44E+036,133.9,m/s
+0x43,current,uint16 (2 bytes),0.001,434E34,13.39,A
+0x44,speed,uint16 (2 bytes),0.01,444E34,133.9,m/s
 0x45,temperature,sint16 (2 bytes),0.1,451101,27.3,°C
 0x46,UV index,uint8 (1 byte),0.1,4632,5,
 0x47,volume,uint16 (2 bytes),0.1,478756,2215.1,L
