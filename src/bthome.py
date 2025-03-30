@@ -49,6 +49,9 @@ class BTHome:
     COUNT_UINT16 = const(0x3D)
     COUNT_UINT32 = const(0x3E)
     ROTATION_SINT16 = const(0x3F)
+    DISTANCE_MM_UINT16 = const(0x40)
+    DISTANCE_M_UINT16 = const(0x41)
+    DURATION_UINT24 = const(0x42)
 
     # There is more than one way to represent most sensor properties. This
     # dictionary maps the object id to the property name.
@@ -75,6 +78,9 @@ class BTHome:
         COUNT_UINT16: "count",
         COUNT_UINT32: "count",
         ROTATION_SINT16: "rotation",
+        DISTANCE_MM_UINT16: "distance",
+        DISTANCE_M_UINT16: "distance",
+        DURATION_UINT24: "duration"
     }
 
     # Properties below are updated externally when sensor values are read.
@@ -155,6 +161,10 @@ class BTHome:
     def _pack_uint16_x1(self, object_id, value):
         return pack("<BH", object_id, round(value))
 
+    # 16-bit unsigned integer with scalling of 10 (1 decimal place)
+    def _pack_uint16_x10(self, object_id, value):
+        return pack("<BH", object_id, round(value * 10))
+
     # 16-bit unsigned integer with scalling of 100 (2 decimal places)
     def _pack_uint16_x100(self, object_id, value):
         return pack("<BH", object_id, round(value * 100))
@@ -198,6 +208,9 @@ class BTHome:
         COUNT_UINT16: _pack_uint16_x1,
         COUNT_UINT32: _pack_uint32_x1,
         ROTATION_SINT16: _pack_sint16_x10,
+        DISTANCE_MM_UINT16: _pack_uint16_x1,
+        DISTANCE_M_UINT16: _pack_uint16_x10,
+        DURATION_UINT24: _pack_uint24_x1000
     }
 
     # Concatenate an arbitrary number of sensor readings using parameters
