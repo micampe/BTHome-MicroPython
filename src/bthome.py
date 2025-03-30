@@ -47,6 +47,8 @@ class BTHome:
     HUMIDITY_UINT8 = const(0x2E)
     MOISTURE_UINT8 = const(0x2F)
     COUNT_UINT16 = const(0x3D)
+    COUNT_UINT32 = const(0x3E)
+    ROTATION_SINT16 = const(0x3F)
 
     # There is more than one way to represent most sensor properties. This
     # dictionary maps the object id to the property name.
@@ -70,9 +72,12 @@ class BTHome:
         MOISTURE_UINT16: "moisture",
         HUMIDITY_UINT8: "humidity",
         MOISTURE_UINT8: "moisture",
-        COUNT_UINT16: "count"
+        COUNT_UINT16: "count",
+        COUNT_UINT32: "count",
+        ROTATION_SINT16: "rotation",
     }
 
+    # Properties below are updated externally when sensor values are read.
     # See "Sensor Data" table at https://bthome.io/format/ Property column.
     acceleration = 0
     battery = 0
@@ -130,13 +135,17 @@ class BTHome:
         return local_name_bytes
 
     # Technically, the functions below could be static methods, but @staticmethod
-    # on a dictionary of functions only works with Python >3.10, but MicroPython
+    # on a dictionary of functions only works with Python >3.10, and MicroPython
     # is based on 3.4. Also, __func__ and __get()__ workarounds throw errors in
     # MicroPython. [^4]
 
     # 8-bit unsigned integer with scaling of 1 (no decimal places)
     def _pack_uint8_x1(self, object_id, value):
         return pack("BB", object_id, value)
+
+    # 16-bit signed integer with scalling of 10 (1 decimal place)
+    def _pack_sint16_x10(self, object_id, value):
+        return pack("<Bh", object_id, round(value * 10))
 
     # 16-bit signed integer with scalling of 100 (2 decimal places)
     def _pack_sint16_x100(self, object_id, value):
@@ -162,6 +171,10 @@ class BTHome:
     def _pack_uint24_x1000(self, object_id, value):
         return pack("<BL", object_id, round(value * 1000))[:-1]
 
+    # 32-bit unsigned integer with scaling of 1 (no decimal places)
+    def _pack_uint32_x1(self, object_id, value):
+        return pack("<BL", object_id, round(value))
+
     _object_id_functions = {
         BATTERY_UINT8: _pack_uint8_x1,
         TEMPERATURE_SINT16: _pack_sint16_x100,
@@ -182,7 +195,9 @@ class BTHome:
         MOISTURE_UINT16: _pack_uint16_x100,
         HUMIDITY_UINT8: _pack_uint8_x1,
         MOISTURE_UINT8: _pack_uint8_x1,
-        COUNT_UINT16: _pack_uint16_x1
+        COUNT_UINT16: _pack_uint16_x1,
+        COUNT_UINT32: _pack_uint32_x1,
+        ROTATION_SINT16: _pack_sint16_x10,
     }
 
     # Concatenate an arbitrary number of sensor readings using parameters
