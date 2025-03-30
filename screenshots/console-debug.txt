@@ -1,0 +1,13 @@
+Constructing advertising payload
+Local name: DIY-sensor
+Packed representation: b'\x0b\tDIY-sensor'
+Using function: <function _pack_sint16_x100 at 0x3ffd43a0>
+Data property: temperature
+Data value: 25
+Packed representation: 02C409
+Using function: <function _pack_uint16_x100 at 0x3ffd43c0>
+Data property: humidity
+Data value: 50.55
+Packed representation: 03BF13
+BLE Advertisement: 0201060B094449592D73656E736F720A16D2FC4002C40903BF13
+Going to sleep.
