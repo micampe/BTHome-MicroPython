@@ -45,6 +45,8 @@ class BTHome:
     TVOC_UINT16 = const(0x13)
     MOISTURE_UINT16 = const(0x14)
     HUMIDITY_UINT8 = const(0x2E)
+    MOISTURE_UINT8 = const(0x2F)
+    COUNT_UINT16 = const(0x3D)
 
     # There is more than one way to represent most sensor properties. This
     # dictionary maps the object id to the property name.
@@ -66,7 +68,9 @@ class BTHome:
         CO2_UINT16: "co2",
         TVOC_UINT16: "tvoc",
         MOISTURE_UINT16: "moisture",
-        HUMIDITY_UINT8: "humidity"
+        HUMIDITY_UINT8: "humidity",
+        MOISTURE_UINT8: "moisture",
+        COUNT_UINT16: "count"
     }
 
     # See "Sensor Data" table at https://bthome.io/format/ Property column.
@@ -176,7 +180,9 @@ class BTHome:
         CO2_UINT16: _pack_uint16_x1,
         TVOC_UINT16: _pack_uint16_x1,
         MOISTURE_UINT16: _pack_uint16_x100,
-        HUMIDITY_UINT8: _pack_uint8_x1
+        HUMIDITY_UINT8: _pack_uint8_x1,
+        MOISTURE_UINT8: _pack_uint8_x1,
+        COUNT_UINT16: _pack_uint16_x1
     }
 
     # Concatenate an arbitrary number of sensor readings using parameters
