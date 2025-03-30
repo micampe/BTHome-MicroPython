@@ -1,6 +1,6 @@
 Constructing advertising payload
 Local name: DIY-sensor
-Packed representation: b'\x0b\tDIY-sensor'
+Packed representation: 0B094449592D73656E736F72
 Using function: <function _pack_sint16_x100 at 0x3ffd43a0>
 Data property: temperature
 Data value: 25

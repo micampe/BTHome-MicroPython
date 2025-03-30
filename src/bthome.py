@@ -137,7 +137,7 @@ class BTHome:
         local_name_bytes = bytes([len(local_name_bytes)]) + local_name_bytes
         if self.debug:
             print("Local name:", self._local_name)
-            print("Packed representation:", local_name_bytes)
+            print("Packed representation:", local_name_bytes.hex().upper())
         return local_name_bytes
 
     # Technically, the functions below could be static methods, but @staticmethod
