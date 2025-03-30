@@ -45,7 +45,7 @@ await aioble.advertise(BLE_ADV_INTERVAL_uS, adv_data=advert, connectable=False)
 See [main.py](main.py) for a more robust example.
 
 ## Will it run on Microcontroller X?
-If the device has Bluetooth and can run recent versions of MicroPython, it should work. You may need to adjust a few things in the example main.py. It uses some ESP32 specific stuff in parts of the debugging output.
+If the device has Bluetooth and can run recent versions of MicroPython, it should work.
 
 ## Can it do more than temperature and humidity?
 My goal was to create an outdoor sensor to measure temperature, humidity, and illuminance so I could make automation decsions in Home Assistant. I've included barometric pressure and battery level in the initial release, but they are untested. If the need arises, I may add other data specified in the BTHome format. You are also free to fork the code and add your own.
