@@ -26,19 +26,20 @@ Once you've got the modules installed, have a look at the code sample in [main.p
 
 Building your own sensor beacon boils down to this...
 1. Import the bthome module
-2. Set the device name you want
-3. Write the sensor readings to the bthome variables you're using
-4. Call bthome.pack_advertisement() with parameters to indicate which data to broadcast
+2. Create a new instance of the BTHome class, passing in the device name you want
+3. Write the sensor readings to the BTHome properties you're using
+4. Call the `pack_advertisement()` method with parameters to indicate what data to broadcast
 5. Send that advertising data to `aioble.advertise()`
 
-As MicroPython statements, those steps are:
+As MicroPython statements, those steps would be something like this:
 
 ```
-import bthome
-bthome.device_name = "myBeacon"
-bthome.temperature = dht.temperature()
-bthome.humidity = dht.humidity()
-adv_data = bthome.pack_advertisement(bthome.TEMPERATURE_SINT16, bthome.HUMIDITY_UINT16)
+from bthome import BTHome
+beacon = BTHome("myBeacon")
+beacon.temperature = dht.temperature()
+beacon.humidity = dht.humidity()
+advert = beacon.pack_advertisement(bthome.TEMPERATURE_SINT16, bthome.HUMIDITY_UINT16)
+await aioble.advertise(BLE_ADV_INTERVAL_uS, adv_data=advert, connectable=False)
 ```
 
 See [main.py](main.py) for a more robust example.
