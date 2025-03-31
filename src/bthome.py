@@ -27,31 +27,44 @@ class BTHome:
     _local_name = ""
 
     # See "Sensor Data" table at https://bthome.io/format/ Object ID column.
-    BATTERY_UINT8 = const(0x01)
-    TEMPERATURE_SINT16 = const(0x02)
-    HUMIDITY_UINT16 = const(0x03)
-    PRESSURE_UINT24 = const(0x04)
-    ILLUMINANCE_UINT24 = const(0x05)
-    MASS_KG_UINT16 = const(0x06)
-    MASS_LB_UINT16 = const(0x07)
-    DEWPOINT_SINT16 = const(0x08)
+    BATTERY_UINT8 = const(0x01)  # %
+    TEMPERATURE_SINT16 = const(0x02)  # °C
+    HUMIDITY_UINT16 = const(0x03)  # %
+    PRESSURE_UINT24 = const(0x04)  # hPa
+    ILLUMINANCE_UINT24 = const(0x05)  # lux
+    MASS_KG_UINT16 = const(0x06)  # kg
+    MASS_LB_UINT16 = const(0x07)  # lb
+    DEWPOINT_SINT16 = const(0x08)  # °C
     COUNT_UINT8 = const(0x09)
-    ENERGY_UINT24 = const(0x0A)
-    POWER_UINT24 = const(0x0B)
-    VOLTAGE_UINT16 = const(0x0C)
-    PM2_5_UINT16 = const(0x0D)
-    PM10_UINT16 = const(0x0E)
-    CO2_UINT16 = const(0x12)
-    TVOC_UINT16 = const(0x13)
-    MOISTURE_UINT16 = const(0x14)
-    HUMIDITY_UINT8 = const(0x2E)
-    MOISTURE_UINT8 = const(0x2F)
+    ENERGY_UINT24 = const(0x0A)  # kWh
+    POWER_UINT24 = const(0x0B)  # W
+    VOLTAGE_UINT16 = const(0x0C)  # V
+    PM2_5_UINT16 = const(0x0D)  # ug/m3
+    PM10_UINT16 = const(0x0E)  # ug/m3
+    CO2_UINT16 = const(0x12)  # ppm
+    TVOC_UINT16 = const(0x13)  # ug/m3
+    MOISTURE_UINT16 = const(0x14)  # %
+    HUMIDITY_UINT8 = const(0x2E)  # %
+    MOISTURE_UINT8 = const(0x2F)  # %
     COUNT_UINT16 = const(0x3D)
     COUNT_UINT32 = const(0x3E)
-    ROTATION_SINT16 = const(0x3F)
-    DISTANCE_MM_UINT16 = const(0x40)
-    DISTANCE_M_UINT16 = const(0x41)
-    DURATION_UINT24 = const(0x42)
+    ROTATION_SINT16 = const(0x3F)  # °
+    DISTANCE_MM_UINT16 = const(0x40)  # mm
+    DISTANCE_M_UINT16 = const(0x41)  # m
+    DURATION_UINT24 = const(0x42)  # s
+    CURRENT_UINT16 = const(0x43)  # A
+    SPEED_UINT16 = const(0x44)  # m/s
+    #TEMPERATURE_SINT16 = const(0x45)  # °C
+    UV_INDEX_UINT8 = const(0x46)
+    VOLUME_L_UINT16 = const(0x47)  # L
+    VOLUME_ML_UINT16 = const(0x48)  # mL
+    VOLUME_FLOW_RATE = const(0x49)  # m3/hr
+    #VOLTAGE_UINT16 = const(0x4A)  # V
+    GAS_UINT24 = const(0x4B)  # m3
+    GAS_UINT32 = const(0x4C)  # m3
+    ENERGY_UINT32 = const(0x4D)  # kWh
+    VOLUME_UINT32 = const(0x4E)  # L
+    WATER_UINT32 = const(0x4F)  # L
 
     # There is more than one way to represent most sensor properties. This
     # dictionary maps the object id to the property name.
@@ -80,7 +93,19 @@ class BTHome:
         ROTATION_SINT16: "rotation",
         DISTANCE_MM_UINT16: "distance",
         DISTANCE_M_UINT16: "distance",
-        DURATION_UINT24: "duration"
+        DURATION_UINT24: "duration",
+        CURRENT_UINT16: "current",
+        #TEMPERATURE_SINT16: "temperature",
+        UV_INDEX_UINT8: "uv_index",
+        VOLUME_L_UINT16: "volume",
+        VOLUME_ML_UINT16: "volume",
+        VOLUME_FLOW_RATE: "volume_flow_rate",
+        #VOLTAGE_UINT16: "voltage",
+        GAS_UINT24: "gas",
+        GAS_UINT32: "gas",
+        ENERGY_UINT32: "energy",
+        VOLUME_UINT32: "volume",
+        WATER_UINT32: "water"
     }
 
     # Properties below are updated externally when sensor values are read.
@@ -149,6 +174,10 @@ class BTHome:
     def _pack_uint8_x1(self, object_id, value):
         return pack("BB", object_id, value)
 
+    # 8-bit unsigned integer with scaling of 10 (1 decimal place)
+    def _pack_uint8_x10(self, object_id, value):
+        return pack("BB", object_id, value * 10)
+
     # 16-bit signed integer with scalling of 10 (1 decimal place)
     def _pack_sint16_x10(self, object_id, value):
         return pack("<Bh", object_id, round(value * 10))
@@ -185,6 +214,10 @@ class BTHome:
     def _pack_uint32_x1(self, object_id, value):
         return pack("<BL", object_id, round(value))
 
+    # 32-bit unsigned integer with scaling of 1000 (3 decimal places)
+    def _pack_uint32_x1000(self, object_id, value):
+        return pack("<BL", object_id, round(value * 1000))
+
     _object_id_functions = {
         BATTERY_UINT8: _pack_uint8_x1,
         TEMPERATURE_SINT16: _pack_sint16_x100,
@@ -210,7 +243,20 @@ class BTHome:
         ROTATION_SINT16: _pack_sint16_x10,
         DISTANCE_MM_UINT16: _pack_uint16_x1,
         DISTANCE_M_UINT16: _pack_uint16_x10,
-        DURATION_UINT24: _pack_uint24_x1000
+        DURATION_UINT24: _pack_uint24_x1000,
+        CURRENT_UINT16: _pack_uint16_x1000,
+        SPEED_UINT16: _pack_sint16_x100,
+        #TEMPERATURE_SINT16: _pack_sint16_x10,
+        UV_INDEX_UINT8: _pack_uint8_x10,
+        VOLUME_L_UINT16: _pack_uint16_x10,
+        VOLUME_ML_UINT16: _pack_uint16_x1,
+        VOLUME_FLOW_RATE: _pack_uint16_x1000,
+        #VOLTAGE_UINT16: _pack_uint16_x10,
+        GAS_UINT24: _pack_uint24_x1000,
+        GAS_UINT32: _pack_uint32_x1000,
+        ENERGY_UINT32: _pack_uint32_x1000,
+        VOLUME_UINT32: _pack_uint32_x1000,
+        WATER_UINT32: _pack_uint32_x1000
     }
 
     # Concatenate an arbitrary number of sensor readings using parameters
