@@ -28,7 +28,7 @@ async def read_sensor():
 async def communicate_readings():
     print("Constructing advertising payload")
     bthome_advert = beacon.pack_advertisement(
-        BTHome.TEMPERATURE_SINT16, BTHome.HUMIDITY_UINT16
+        BTHome.TEMPERATURE_SINT16_X100, BTHome.HUMIDITY_UINT16_X100
     )
     await aioble.advertise(
         BLE_ADV_INTERVAL_uS,
