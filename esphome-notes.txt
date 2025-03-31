@@ -1,8 +1,7 @@
-
 If you use ESPHome as a Bluetooth proxy, you'll need to have
-the Bluetooth tracker enabled to discover your ESPHome config.
+the Bluetooth tracker enabled to discover your BTHome device.
 
-Like this...
+Like this in your ESPHome YAML...
 
 bluetooth_proxy:
   active: true
