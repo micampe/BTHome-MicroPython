@@ -27,9 +27,9 @@ class BTHome:
     _local_name = ""
 
     # Naming convention is:
-    #   <property> "_" <data-type> "_x" <inverse of factor> = <object-id>
-    # For example, 0x02 temperature sint16 0.01 becomes:
-    #   TEMPERATURE _ SINT16 _x 100 = 0x02
+    #   <const_name> ::= <property> "_" <data-type> "_x" <inverse of factor>
+    # For example, temperature sint16 0.01 becomes:
+    #   TEMPERATURE _ SINT16 _x 100
     # See "Sensor Data" table at https://bthome.io/format/
     BATTERY_UINT8_X1 = const(0x01)  # %
     TEMPERATURE_SINT16_X100 = const(0x02)  # °C
@@ -75,6 +75,17 @@ class BTHome:
     TEXT_BYTES = const(0x53)
     RAW_BYTES = const(0x54)
     VOLUME_STORAGE_UINT32_X1000 = const(0x55)  # L
+    CONDUCTIVITY_UINT16_X1 = const(0x56)  # µS/cm
+    TEMPERATURE_SINT8_X1 = const(0x57)  # °C
+    # Skipping 0x58 due to strange factor of 0.35
+    COUNT_SINT8_X1 = const(0x59)
+    COUNT_SINT16_X1 = const(0x5A)
+    COUNT_SINT32_X1 = const(0x5B)
+    POWER_SINT16_X100 = const(0x5C)  # W
+    CURRENT_SINT16_X1000 = const(0x5D)  # A
+    DIRECTION_UINT16_X100 = const(0x5E)  # °
+    PRECIPITATION_UINT16_X1 = const(0x5F)  # mm
+    CHANNEL_UINT8_X1 = const(0x60)
 
     # There is more than one way to represent most sensor properties. This
     # dictionary maps the object id to the property name.
@@ -119,7 +130,17 @@ class BTHome:
         TIMESTAMP_UINT48_X1: "timestamp",
         ACCELERATION_UINT16_X1000: "acceleration",
         GYROSCOPE_UINT16_X1000: "gyroscope",
-        VOLUME_STORAGE_UINT32_X1000: "volume_storage"
+        VOLUME_STORAGE_UINT32_X1000: "volume_storage",
+        CONDUCTIVITY_UINT16_X1: "conductivity",
+        TEMPERATURE_SINT8_X1: "temperature",
+        COUNT_SINT8_X1: "count",
+        COUNT_SINT16_X1: "count",
+        COUNT_SINT32_X1: "count",
+        POWER_SINT16_X100: "power",
+        CURRENT_SINT16_X1000: "current",
+        DIRECTION_UINT16_X100: "direction",
+        PRECIPITATION_UINT16_X1: "precipitation",
+        CHANNEL_UINT8_X1: "channel"
     }
 
     # Properties below are updated externally when sensor values are read.
@@ -170,15 +191,6 @@ class BTHome:
     def local_name(self):
         return self._local_name
 
-    def pack_local_name(self):
-        name_type = bytes.fromhex("09")  # indicator for complete name
-        local_name_bytes = name_type + self._local_name.encode()
-        local_name_bytes = bytes([len(local_name_bytes)]) + local_name_bytes
-        if self.debug:
-            print("Local name:", self._local_name)
-            print("Packed representation:", local_name_bytes.hex().upper())
-        return local_name_bytes
-
     # Technically, the functions below could be static methods, but @staticmethod
     # on a dictionary of functions only works with Python >3.10, and MicroPython
     # is based on 3.4. Also, __func__ and __get()__ workarounds throw errors in
@@ -192,13 +204,9 @@ class BTHome:
     def _pack_uint8_x10(self, object_id, value):
         return pack("BB", object_id, round(value * 10))
 
-    # 16-bit signed integer with scalling of 10 (1 decimal place)
-    def _pack_sint16_x10(self, object_id, value):
-        return pack("<Bh", object_id, round(value * 10))
-
-    # 16-bit signed integer with scalling of 100 (2 decimal places)
-    def _pack_sint16_x100(self, object_id, value):
-        return pack("<Bh", object_id, round(value * 100))
+    # 8-bit signed integer with scalling of 1 (no decimal places)
+    def _pack_sint8_x1(self, object_id, value):
+        return pack("BB", object_id, round(value))
 
     # 16-bit unsigned integer with scalling of 1 (no decimal places)
     def _pack_uint16_x1(self, object_id, value):
@@ -216,6 +224,22 @@ class BTHome:
     def _pack_uint16_x1000(self, object_id, value):
         return pack("<BH", object_id, round(value * 1000))
 
+    # 16-bit signed integer with scalling of 1 (no decimal places)
+    def _pack_sint16_x1(self, object_id, value):
+        return pack("<BH", object_id, round(value))
+
+    # 16-bit signed integer with scalling of 10 (1 decimal place)
+    def _pack_sint16_x10(self, object_id, value):
+        return pack("<Bh", object_id, round(value * 10))
+
+    # 16-bit signed integer with scalling of 100 (2 decimal places)
+    def _pack_sint16_x100(self, object_id, value):
+        return pack("<Bh", object_id, round(value * 100))
+
+    # 16-bit signed integer with scalling of 1000 (3 decimal places)
+    def _pack_sint16_x1000(self, object_id, value):
+        return pack("<Bh", object_id, round(value * 1000))
+
     # 24-bit unsigned integer with scaling of 100 (2 decimal places)
     def _pack_uint24_x100(self, object_id, value):
         return pack("<BL", object_id, round(value * 100))[:-1]
@@ -232,12 +256,16 @@ class BTHome:
     def _pack_uint32_x1000(self, object_id, value):
         return pack("<BL", object_id, round(value * 1000))
 
+    # 32-bit signed integer with scalling of 1 (no decimal places)
+    def _pack_sint32_x1(self, object_id, value):
+        return pack("<BL", object_id, round(value))
+
     # 48-bit unsigned integer with scaling of 1 (no decimal places)
     def _pack_uint48_x1(self, object_id, value):
         return pack("<BQ", object_id, value)[:-2]
 
     def _pack_raw_text(self, object_id, value):
-        packed_value = bytes(object_id) + value.encode()
+        packed_value = pack("B", object_id) + value.encode()
         packed_value = bytes([len(packed_value)]) + packed_value
         return packed_value
 
@@ -285,7 +313,17 @@ class BTHome:
         GYROSCOPE_UINT16_X1000: _pack_uint16_x1000,
         TEXT_BYTES: _pack_raw_text,
         RAW_BYTES: _pack_raw_text,
-        VOLUME_STORAGE_UINT32_X1000: _pack_uint32_x1000
+        VOLUME_STORAGE_UINT32_X1000: _pack_uint32_x1000,
+        CONDUCTIVITY_UINT16_X1: _pack_uint16_x1,
+        TEMPERATURE_SINT8_X1: _pack_sint8_x1,
+        COUNT_SINT8_X1: _pack_sint8_x1,
+        COUNT_SINT16_X1: _pack_sint16_x1,
+        COUNT_SINT32_X1: _pack_sint32_x1,
+        POWER_SINT16_X100: _pack_sint16_x100,
+        CURRENT_SINT16_X1000: _pack_sint16_x1000,
+        DIRECTION_UINT16_X100: _pack_uint16_x100,
+        PRECIPITATION_UINT16_X1: _pack_uint16_x1,
+        CHANNEL_UINT8_X1: _pack_uint8_x1
     }
 
     # Concatenate an arbitrary number of sensor readings using parameters
@@ -312,7 +350,7 @@ class BTHome:
 
     def pack_advertisement(self, *args):
         advertisement_bytes = self._ADVERT_FLAGS  # All BTHome adverts start this way.
-        advertisement_bytes += self.pack_local_name()
+        advertisement_bytes += self._pack_raw_text(0x09, self.local_name)  # 0x09 indicates complete name
         advertisement_bytes += self._pack_service_data(*args)
         if self.debug:
             print("BLE Advertisement:", advertisement_bytes.hex().upper())
