@@ -27,85 +27,85 @@ class BTHome:
     _local_name = ""
 
     # See "Sensor Data" table at https://bthome.io/format/ Object ID column.
-    BATTERY_UINT8 = const(0x01)  # %
-    TEMPERATURE_SINT16 = const(0x02)  # °C
-    HUMIDITY_UINT16 = const(0x03)  # %
-    PRESSURE_UINT24 = const(0x04)  # hPa
-    ILLUMINANCE_UINT24 = const(0x05)  # lux
-    MASS_KG_UINT16 = const(0x06)  # kg
-    MASS_LB_UINT16 = const(0x07)  # lb
-    DEWPOINT_SINT16 = const(0x08)  # °C
-    COUNT_UINT8 = const(0x09)
-    ENERGY_UINT24 = const(0x0A)  # kWh
-    POWER_UINT24 = const(0x0B)  # W
-    VOLTAGE_UINT16 = const(0x0C)  # V
-    PM2_5_UINT16 = const(0x0D)  # ug/m3
-    PM10_UINT16 = const(0x0E)  # ug/m3
-    CO2_UINT16 = const(0x12)  # ppm
-    TVOC_UINT16 = const(0x13)  # ug/m3
-    MOISTURE_UINT16 = const(0x14)  # %
-    HUMIDITY_UINT8 = const(0x2E)  # %
-    MOISTURE_UINT8 = const(0x2F)  # %
-    COUNT_UINT16 = const(0x3D)
-    COUNT_UINT32 = const(0x3E)
-    ROTATION_SINT16 = const(0x3F)  # °
-    DISTANCE_MM_UINT16 = const(0x40)  # mm
-    DISTANCE_M_UINT16 = const(0x41)  # m
-    DURATION_UINT24 = const(0x42)  # s
-    CURRENT_UINT16 = const(0x43)  # A
-    SPEED_UINT16 = const(0x44)  # m/s
-    #TEMPERATURE_SINT16 = const(0x45)  # °C
-    UV_INDEX_UINT8 = const(0x46)
-    VOLUME_L_UINT16 = const(0x47)  # L
-    VOLUME_ML_UINT16 = const(0x48)  # mL
-    VOLUME_FLOW_RATE = const(0x49)  # m3/hr
-    #VOLTAGE_UINT16 = const(0x4A)  # V
-    GAS_UINT24 = const(0x4B)  # m3
-    GAS_UINT32 = const(0x4C)  # m3
-    ENERGY_UINT32 = const(0x4D)  # kWh
-    VOLUME_UINT32 = const(0x4E)  # L
-    WATER_UINT32 = const(0x4F)  # L
+    BATTERY_UINT8_X1 = const(0x01)  # %
+    TEMPERATURE_SINT16_X100 = const(0x02)  # °C
+    HUMIDITY_UINT16_X100 = const(0x03)  # %
+    PRESSURE_UINT24_X100 = const(0x04)  # hPa
+    ILLUMINANCE_UINT24_X100 = const(0x05)  # lux
+    MASS_KG_UINT16_X100 = const(0x06)  # kg
+    MASS_LB_UINT16_X100 = const(0x07)  # lb
+    DEWPOINT_SINT16_X100 = const(0x08)  # °C
+    COUNT_UINT8_X1 = const(0x09)
+    ENERGY_UINT24_X1000 = const(0x0A)  # kWh
+    POWER_UINT24_X100 = const(0x0B)  # W
+    VOLTAGE_UINT16_X1000 = const(0x0C)  # V
+    PM2_5_UINT16_X1 = const(0x0D)  # ug/m3
+    PM10_UINT16_X1 = const(0x0E)  # ug/m3
+    CO2_UINT16_X1 = const(0x12)  # ppm
+    TVOC_UINT16_X1 = const(0x13)  # ug/m3
+    MOISTURE_UINT16_X100 = const(0x14)  # %
+    HUMIDITY_UINT8_X1 = const(0x2E)  # %
+    MOISTURE_UINT8_X1 = const(0x2F)  # %
+    COUNT_UINT16_X1 = const(0x3D)
+    COUNT_UINT32_X1 = const(0x3E)
+    ROTATION_SINT16_X10 = const(0x3F)  # °
+    DISTANCE_MM_UINT16_X1 = const(0x40)  # mm
+    DISTANCE_M_UINT16_X10 = const(0x41)  # m
+    DURATION_UINT24_X1000 = const(0x42)  # s
+    CURRENT_UINT16_X1000 = const(0x43)  # A
+    SPEED_UINT16_X100 = const(0x44)  # m/s
+    TEMPERATURE_SINT16_X10 = const(0x45)  # °C
+    UV_INDEX_UINT8_X10 = const(0x46)
+    VOLUME_L_UINT16_X10 = const(0x47)  # L
+    VOLUME_ML_UINT16_X1 = const(0x48)  # mL
+    VOLUME_FLOW_RATE_X1000 = const(0x49)  # m3/hr
+    VOLTAGE_UINT16_X10 = const(0x4A)  # V
+    GAS_UINT24_X1000 = const(0x4B)  # m3
+    GAS_UINT32_X1000 = const(0x4C)  # m3
+    ENERGY_UINT32_X1000 = const(0x4D)  # kWh
+    VOLUME_UINT32_X1000 = const(0x4E)  # L
+    WATER_UINT32_X1000 = const(0x4F)  # L
 
     # There is more than one way to represent most sensor properties. This
     # dictionary maps the object id to the property name.
     _object_id_properties = {
-        BATTERY_UINT8: "battery",
-        TEMPERATURE_SINT16: "temperature",
-        HUMIDITY_UINT16: "humidity",
-        PRESSURE_UINT24: "pressure",
-        ILLUMINANCE_UINT24: "illuminance",
-        MASS_KG_UINT16: "mass",
-        MASS_LB_UINT16: "mass",
-        DEWPOINT_SINT16: "dewpoint",
-        COUNT_UINT8: "count",
-        ENERGY_UINT24: "energy",
-        POWER_UINT24: "power",
-        VOLTAGE_UINT16: "voltage",
-        PM2_5_UINT16: "pm2.5",
-        PM10_UINT16: "pm10",
-        CO2_UINT16: "co2",
-        TVOC_UINT16: "tvoc",
-        MOISTURE_UINT16: "moisture",
-        HUMIDITY_UINT8: "humidity",
-        MOISTURE_UINT8: "moisture",
-        COUNT_UINT16: "count",
-        COUNT_UINT32: "count",
-        ROTATION_SINT16: "rotation",
-        DISTANCE_MM_UINT16: "distance",
-        DISTANCE_M_UINT16: "distance",
-        DURATION_UINT24: "duration",
-        CURRENT_UINT16: "current",
-        #TEMPERATURE_SINT16: "temperature",
-        UV_INDEX_UINT8: "uv_index",
-        VOLUME_L_UINT16: "volume",
-        VOLUME_ML_UINT16: "volume",
-        VOLUME_FLOW_RATE: "volume_flow_rate",
-        #VOLTAGE_UINT16: "voltage",
-        GAS_UINT24: "gas",
-        GAS_UINT32: "gas",
-        ENERGY_UINT32: "energy",
-        VOLUME_UINT32: "volume",
-        WATER_UINT32: "water"
+        BATTERY_UINT8_X1: "battery",
+        TEMPERATURE_SINT16_X100: "temperature",
+        HUMIDITY_UINT16_X100: "humidity",
+        PRESSURE_UINT24_X100: "pressure",
+        ILLUMINANCE_UINT24_X100: "illuminance",
+        MASS_KG_UINT16_X100: "mass",
+        MASS_LB_UINT16_X100: "mass",
+        DEWPOINT_SINT16_X100: "dewpoint",
+        COUNT_UINT8_X1: "count",
+        ENERGY_UINT24_X1000: "energy",
+        POWER_UINT24_X100: "power",
+        VOLTAGE_UINT16_X1000: "voltage",
+        PM2_5_UINT16_X1: "pm2.5",
+        PM10_UINT16_X1: "pm10",
+        CO2_UINT16_X1: "co2",
+        TVOC_UINT16_X1: "tvoc",
+        MOISTURE_UINT16_X100: "moisture",
+        HUMIDITY_UINT8_X1: "humidity",
+        MOISTURE_UINT8_X1: "moisture",
+        COUNT_UINT16_X1: "count",
+        COUNT_UINT32_X1: "count",
+        ROTATION_SINT16_X10: "rotation",
+        DISTANCE_MM_UINT16_X1: "distance",
+        DISTANCE_M_UINT16_X10: "distance",
+        DURATION_UINT24_X1000: "duration",
+        CURRENT_UINT16_X1000: "current",
+        TEMPERATURE_SINT16_X10: "temperature",
+        UV_INDEX_UINT8_X10: "uv_index",
+        VOLUME_L_UINT16_X10: "volume",
+        VOLUME_ML_UINT16_X1: "volume",
+        VOLUME_FLOW_RATE_X1000: "volume_flow_rate",
+        VOLTAGE_UINT16_X10: "voltage",
+        GAS_UINT24_X1000: "gas",
+        GAS_UINT32_X1000: "gas",
+        ENERGY_UINT32_X1000: "energy",
+        VOLUME_UINT32_X1000: "volume",
+        WATER_UINT32_X1000: "water"
     }
 
     # Properties below are updated externally when sensor values are read.
@@ -219,44 +219,44 @@ class BTHome:
         return pack("<BL", object_id, round(value * 1000))
 
     _object_id_functions = {
-        BATTERY_UINT8: _pack_uint8_x1,
-        TEMPERATURE_SINT16: _pack_sint16_x100,
-        HUMIDITY_UINT16: _pack_uint16_x100,
-        PRESSURE_UINT24: _pack_uint24_x100,
-        ILLUMINANCE_UINT24: _pack_uint24_x100,
-        MASS_KG_UINT16: _pack_uint16_x100,
-        MASS_LB_UINT16: _pack_uint16_x100,
-        DEWPOINT_SINT16: _pack_sint16_x100,
-        COUNT_UINT8: _pack_uint8_x1,
-        ENERGY_UINT24: _pack_uint24_x1000,
-        POWER_UINT24: _pack_uint24_x100,
-        VOLTAGE_UINT16: _pack_uint16_x1000,
-        PM2_5_UINT16: _pack_uint16_x1,
-        PM10_UINT16: _pack_uint16_x1,
-        CO2_UINT16: _pack_uint16_x1,
-        TVOC_UINT16: _pack_uint16_x1,
-        MOISTURE_UINT16: _pack_uint16_x100,
-        HUMIDITY_UINT8: _pack_uint8_x1,
-        MOISTURE_UINT8: _pack_uint8_x1,
-        COUNT_UINT16: _pack_uint16_x1,
-        COUNT_UINT32: _pack_uint32_x1,
-        ROTATION_SINT16: _pack_sint16_x10,
-        DISTANCE_MM_UINT16: _pack_uint16_x1,
-        DISTANCE_M_UINT16: _pack_uint16_x10,
-        DURATION_UINT24: _pack_uint24_x1000,
-        CURRENT_UINT16: _pack_uint16_x1000,
-        SPEED_UINT16: _pack_sint16_x100,
-        #TEMPERATURE_SINT16: _pack_sint16_x10,
-        UV_INDEX_UINT8: _pack_uint8_x10,
-        VOLUME_L_UINT16: _pack_uint16_x10,
-        VOLUME_ML_UINT16: _pack_uint16_x1,
-        VOLUME_FLOW_RATE: _pack_uint16_x1000,
-        #VOLTAGE_UINT16: _pack_uint16_x10,
-        GAS_UINT24: _pack_uint24_x1000,
-        GAS_UINT32: _pack_uint32_x1000,
-        ENERGY_UINT32: _pack_uint32_x1000,
-        VOLUME_UINT32: _pack_uint32_x1000,
-        WATER_UINT32: _pack_uint32_x1000
+        BATTERY_UINT8_X1: _pack_uint8_x1,
+        TEMPERATURE_SINT16_X100: _pack_sint16_x100,
+        HUMIDITY_UINT16_X100: _pack_uint16_x100,
+        PRESSURE_UINT24_X100: _pack_uint24_x100,
+        ILLUMINANCE_UINT24_X100: _pack_uint24_x100,
+        MASS_KG_UINT16_X100: _pack_uint16_x100,
+        MASS_LB_UINT16_X100: _pack_uint16_x100,
+        DEWPOINT_SINT16_X100: _pack_sint16_x100,
+        COUNT_UINT8_X1: _pack_uint8_x1,
+        ENERGY_UINT24_X1000: _pack_uint24_x1000,
+        POWER_UINT24_X100: _pack_uint24_x100,
+        VOLTAGE_UINT16_X1000: _pack_uint16_x1000,
+        PM2_5_UINT16_X1: _pack_uint16_x1,
+        PM10_UINT16_X1: _pack_uint16_x1,
+        CO2_UINT16_X1: _pack_uint16_x1,
+        TVOC_UINT16_X1: _pack_uint16_x1,
+        MOISTURE_UINT16_X100: _pack_uint16_x100,
+        HUMIDITY_UINT8_X1: _pack_uint8_x1,
+        MOISTURE_UINT8_X1: _pack_uint8_x1,
+        COUNT_UINT16_X1: _pack_uint16_x1,
+        COUNT_UINT32_X1: _pack_uint32_x1,
+        ROTATION_SINT16_X10: _pack_sint16_x10,
+        DISTANCE_MM_UINT16_X1: _pack_uint16_x1,
+        DISTANCE_M_UINT16_X10: _pack_uint16_x10,
+        DURATION_UINT24_X1000: _pack_uint24_x1000,
+        CURRENT_UINT16_X1000: _pack_uint16_x1000,
+        SPEED_UINT16_X100: _pack_sint16_x100,
+        TEMPERATURE_SINT16_X10: _pack_sint16_x10,
+        UV_INDEX_UINT8_X10: _pack_uint8_x10,
+        VOLUME_L_UINT16_X10: _pack_uint16_x10,
+        VOLUME_ML_UINT16_X1: _pack_uint16_x1,
+        VOLUME_FLOW_RATE_X1000: _pack_uint16_x1000,
+        VOLTAGE_UINT16_X10: _pack_uint16_x10,
+        GAS_UINT24_X1000: _pack_uint24_x1000,
+        GAS_UINT32_X1000: _pack_uint32_x1000,
+        ENERGY_UINT32_X1000: _pack_uint32_x1000,
+        VOLUME_UINT32_X1000: _pack_uint32_x1000,
+        WATER_UINT32_X1000: _pack_uint32_x1000
     }
 
     # Concatenate an arbitrary number of sensor readings using parameters
@@ -297,7 +297,7 @@ def demo():
     beacon.temperature = 25
     beacon.humidity = 50.55
     ble_advert = beacon.pack_advertisement(
-        BTHome.TEMPERATURE_SINT16, BTHome.HUMIDITY_UINT16
+        BTHome.TEMPERATURE_SINT16_X100, BTHome.HUMIDITY_UINT16_X100
     )
     return ble_advert
 
