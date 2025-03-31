@@ -196,72 +196,48 @@ class BTHome:
     # is based on 3.4. Also, __func__ and __get()__ workarounds throw errors in
     # MicroPython. [^4]
 
-    # 8-bit unsigned integer with scaling of 1 (no decimal places)
-    def _pack_uint8_x1(self, object_id, value):
+    # 8-bit integer with scaling of 1 (no decimal places)
+    def _pack_int8_x1(self, object_id, value):
         return pack("BB", object_id, round(value))
 
-    # 8-bit unsigned integer with scaling of 10 (1 decimal place)
-    def _pack_uint8_x10(self, object_id, value):
+    # 8-bit integer with scaling of 10 (1 decimal place)
+    def _pack_int8_x10(self, object_id, value):
         return pack("BB", object_id, round(value * 10))
 
-    # 8-bit signed integer with scalling of 1 (no decimal places)
-    def _pack_sint8_x1(self, object_id, value):
-        return pack("BB", object_id, round(value))
-
-    # 16-bit unsigned integer with scalling of 1 (no decimal places)
-    def _pack_uint16_x1(self, object_id, value):
+    # 16-bit integer with scalling of 1 (no decimal places)
+    def _pack_int16_x1(self, object_id, value):
         return pack("<BH", object_id, round(value))
 
-    # 16-bit unsigned integer with scalling of 10 (1 decimal place)
-    def _pack_uint16_x10(self, object_id, value):
+    # 16-bit integer with scalling of 10 (1 decimal place)
+    def _pack_int16_x10(self, object_id, value):
         return pack("<BH", object_id, round(value * 10))
 
-    # 16-bit unsigned integer with scalling of 100 (2 decimal places)
-    def _pack_uint16_x100(self, object_id, value):
+    # 16-bit integer with scalling of 100 (2 decimal places)
+    def _pack_int16_x100(self, object_id, value):
         return pack("<BH", object_id, round(value * 100))
 
-    # 16-bit unsigned integer with scalling of 1000 (3 decimal places)
-    def _pack_uint16_x1000(self, object_id, value):
+    # 16-bit integer with scalling of 1000 (3 decimal places)
+    def _pack_int16_x1000(self, object_id, value):
         return pack("<BH", object_id, round(value * 1000))
 
-    # 16-bit signed integer with scalling of 1 (no decimal places)
-    def _pack_sint16_x1(self, object_id, value):
-        return pack("<BH", object_id, round(value))
-
-    # 16-bit signed integer with scalling of 10 (1 decimal place)
-    def _pack_sint16_x10(self, object_id, value):
-        return pack("<Bh", object_id, round(value * 10))
-
-    # 16-bit signed integer with scalling of 100 (2 decimal places)
-    def _pack_sint16_x100(self, object_id, value):
-        return pack("<Bh", object_id, round(value * 100))
-
-    # 16-bit signed integer with scalling of 1000 (3 decimal places)
-    def _pack_sint16_x1000(self, object_id, value):
-        return pack("<Bh", object_id, round(value * 1000))
-
-    # 24-bit unsigned integer with scaling of 100 (2 decimal places)
-    def _pack_uint24_x100(self, object_id, value):
+    # 24-bit integer with scaling of 100 (2 decimal places)
+    def _pack_int24_x100(self, object_id, value):
         return pack("<BL", object_id, round(value * 100))[:-1]
 
-    # 24-bit unsigned integer with scaling of 1000 (3 decimal places)
-    def _pack_uint24_x1000(self, object_id, value):
+    # 24-bit integer with scaling of 1000 (3 decimal places)
+    def _pack_int24_x1000(self, object_id, value):
         return pack("<BL", object_id, round(value * 1000))[:-1]
 
-    # 32-bit unsigned integer with scaling of 1 (no decimal places)
-    def _pack_uint32_x1(self, object_id, value):
+    # 32-bit integer with scaling of 1 (no decimal places)
+    def _pack_int32_x1(self, object_id, value):
         return pack("<BL", object_id, round(value))
 
-    # 32-bit unsigned integer with scaling of 1000 (3 decimal places)
-    def _pack_uint32_x1000(self, object_id, value):
+    # 32-bit integer with scaling of 1000 (3 decimal places)
+    def _pack_int32_x1000(self, object_id, value):
         return pack("<BL", object_id, round(value * 1000))
 
-    # 32-bit signed integer with scalling of 1 (no decimal places)
-    def _pack_sint32_x1(self, object_id, value):
-        return pack("<BL", object_id, round(value))
-
-    # 48-bit unsigned integer with scaling of 1 (no decimal places)
-    def _pack_uint48_x1(self, object_id, value):
+    # 48-bit integer with scaling of 1 (no decimal places)
+    def _pack_int48_x1(self, object_id, value):
         return pack("<BQ", object_id, value)[:-2]
 
     def _pack_raw_text(self, object_id, value):
@@ -270,60 +246,60 @@ class BTHome:
         return packed_value
 
     _object_id_functions = {
-        BATTERY_UINT8_X1: _pack_uint8_x1,
-        TEMPERATURE_SINT16_X100: _pack_sint16_x100,
-        HUMIDITY_UINT16_X100: _pack_uint16_x100,
-        PRESSURE_UINT24_X100: _pack_uint24_x100,
-        ILLUMINANCE_UINT24_X100: _pack_uint24_x100,
-        MASS_KG_UINT16_X100: _pack_uint16_x100,
-        MASS_LB_UINT16_X100: _pack_uint16_x100,
-        DEWPOINT_SINT16_X100: _pack_sint16_x100,
-        COUNT_UINT8_X1: _pack_uint8_x1,
-        ENERGY_UINT24_X1000: _pack_uint24_x1000,
-        POWER_UINT24_X100: _pack_uint24_x100,
-        VOLTAGE_UINT16_X1000: _pack_uint16_x1000,
-        PM2_5_UINT16_X1: _pack_uint16_x1,
-        PM10_UINT16_X1: _pack_uint16_x1,
-        CO2_UINT16_X1: _pack_uint16_x1,
-        TVOC_UINT16_X1: _pack_uint16_x1,
-        MOISTURE_UINT16_X100: _pack_uint16_x100,
-        HUMIDITY_UINT8_X1: _pack_uint8_x1,
-        MOISTURE_UINT8_X1: _pack_uint8_x1,
-        COUNT_UINT16_X1: _pack_uint16_x1,
-        COUNT_UINT32_X1: _pack_uint32_x1,
-        ROTATION_SINT16_X10: _pack_sint16_x10,
-        DISTANCE_MM_UINT16_X1: _pack_uint16_x1,
-        DISTANCE_M_UINT16_X10: _pack_uint16_x10,
-        DURATION_UINT24_X1000: _pack_uint24_x1000,
-        CURRENT_UINT16_X1000: _pack_uint16_x1000,
-        SPEED_UINT16_X100: _pack_sint16_x100,
-        TEMPERATURE_SINT16_X10: _pack_sint16_x10,
-        UV_INDEX_UINT8_X10: _pack_uint8_x10,
-        VOLUME_L_UINT16_X10: _pack_uint16_x10,
-        VOLUME_ML_UINT16_X1: _pack_uint16_x1,
-        VOLUME_FLOW_RATE_X1000: _pack_uint16_x1000,
-        VOLTAGE_UINT16_X10: _pack_uint16_x10,
-        GAS_UINT24_X1000: _pack_uint24_x1000,
-        GAS_UINT32_X1000: _pack_uint32_x1000,
-        ENERGY_UINT32_X1000: _pack_uint32_x1000,
-        VOLUME_UINT32_X1000: _pack_uint32_x1000,
-        WATER_UINT32_X1000: _pack_uint32_x1000,
-        TIMESTAMP_UINT48_X1: _pack_uint48_x1,
-        ACCELERATION_UINT16_X1000: _pack_uint16_x1000,
-        GYROSCOPE_UINT16_X1000: _pack_uint16_x1000,
+        BATTERY_UINT8_X1: _pack_int8_x1,
+        TEMPERATURE_SINT16_X100: _pack_int16_x100,
+        HUMIDITY_UINT16_X100: _pack_int16_x100,
+        PRESSURE_UINT24_X100: _pack_int24_x100,
+        ILLUMINANCE_UINT24_X100: _pack_int24_x100,
+        MASS_KG_UINT16_X100: _pack_int16_x100,
+        MASS_LB_UINT16_X100: _pack_int16_x100,
+        DEWPOINT_SINT16_X100: _pack_int16_x100,
+        COUNT_UINT8_X1: _pack_int8_x1,
+        ENERGY_UINT24_X1000: _pack_int24_x1000,
+        POWER_UINT24_X100: _pack_int24_x100,
+        VOLTAGE_UINT16_X1000: _pack_int16_x1000,
+        PM2_5_UINT16_X1: _pack_int16_x1,
+        PM10_UINT16_X1: _pack_int16_x1,
+        CO2_UINT16_X1: _pack_int16_x1,
+        TVOC_UINT16_X1: _pack_int16_x1,
+        MOISTURE_UINT16_X100: _pack_int16_x100,
+        HUMIDITY_UINT8_X1: _pack_int8_x1,
+        MOISTURE_UINT8_X1: _pack_int8_x1,
+        COUNT_UINT16_X1: _pack_int16_x1,
+        COUNT_UINT32_X1: _pack_int32_x1,
+        ROTATION_SINT16_X10: _pack_int16_x10,
+        DISTANCE_MM_UINT16_X1: _pack_int16_x1,
+        DISTANCE_M_UINT16_X10: _pack_int16_x10,
+        DURATION_UINT24_X1000: _pack_int24_x1000,
+        CURRENT_UINT16_X1000: _pack_int16_x1000,
+        SPEED_UINT16_X100: _pack_int16_x100,
+        TEMPERATURE_SINT16_X10: _pack_int16_x10,
+        UV_INDEX_UINT8_X10: _pack_int8_x10,
+        VOLUME_L_UINT16_X10: _pack_int16_x10,
+        VOLUME_ML_UINT16_X1: _pack_int16_x1,
+        VOLUME_FLOW_RATE_X1000: _pack_int16_x1000,
+        VOLTAGE_UINT16_X10: _pack_int16_x10,
+        GAS_UINT24_X1000: _pack_int24_x1000,
+        GAS_UINT32_X1000: _pack_int32_x1000,
+        ENERGY_UINT32_X1000: _pack_int32_x1000,
+        VOLUME_UINT32_X1000: _pack_int32_x1000,
+        WATER_UINT32_X1000: _pack_int32_x1000,
+        TIMESTAMP_UINT48_X1: _pack_int48_x1,
+        ACCELERATION_UINT16_X1000: _pack_int16_x1000,
+        GYROSCOPE_UINT16_X1000: _pack_int16_x1000,
         TEXT_BYTES: _pack_raw_text,
         RAW_BYTES: _pack_raw_text,
-        VOLUME_STORAGE_UINT32_X1000: _pack_uint32_x1000,
-        CONDUCTIVITY_UINT16_X1: _pack_uint16_x1,
-        TEMPERATURE_SINT8_X1: _pack_sint8_x1,
-        COUNT_SINT8_X1: _pack_sint8_x1,
-        COUNT_SINT16_X1: _pack_sint16_x1,
-        COUNT_SINT32_X1: _pack_sint32_x1,
-        POWER_SINT16_X100: _pack_sint16_x100,
-        CURRENT_SINT16_X1000: _pack_sint16_x1000,
-        DIRECTION_UINT16_X100: _pack_uint16_x100,
-        PRECIPITATION_UINT16_X1: _pack_uint16_x1,
-        CHANNEL_UINT8_X1: _pack_uint8_x1
+        VOLUME_STORAGE_UINT32_X1000: _pack_int32_x1000,
+        CONDUCTIVITY_UINT16_X1: _pack_int16_x1,
+        TEMPERATURE_SINT8_X1: _pack_int8_x1,
+        COUNT_SINT8_X1: _pack_int8_x1,
+        COUNT_SINT16_X1: _pack_int16_x1,
+        COUNT_SINT32_X1: _pack_int32_x1,
+        POWER_SINT16_X100: _pack_int16_x100,
+        CURRENT_SINT16_X1000: _pack_int16_x1000,
+        DIRECTION_UINT16_X100: _pack_int16_x100,
+        PRECIPITATION_UINT16_X1: _pack_int16_x1,
+        CHANNEL_UINT8_X1: _pack_int8_x1
     }
 
     # Concatenate an arbitrary number of sensor readings using parameters
