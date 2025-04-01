@@ -29,7 +29,7 @@ class BTHome:
     # For most sensors, naming convention is:
     #   <const_name> ::= <property> "_" <data-type> "_x" <inverse of factor>
     # Example, temperature sint16 0.01 becomes:
-    #   TEMPERATURE _ SINT16 _x 100
+    #   TEMPERATURE_SINT16_x100
     # For binary sensors (0x15 .. 0x2D), naming convention is:
     #   <const_name> ::= <property> "_" BINARY
     # Example, "battery charging" becomes:
