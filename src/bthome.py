@@ -36,6 +36,7 @@ class BTHome:
     #   BATTERY_CHARGING_BINARY
     # All binary sensors are packed as 8-bit unsigned bytes.
     # See "Sensor Data" table at https://bthome.io/format/
+    PACKET_ID_UINT8 = const(0x00)
     BATTERY_UINT8_X1 = const(0x01)  # %
     TEMPERATURE_SINT16_X100 = const(0x02)  # °C
     HUMIDITY_UINT16_X100 = const(0x03)  # %
@@ -105,6 +106,7 @@ class BTHome:
     # There is more than one way to represent most sensor properties. This
     # dictionary maps the object id to the property name.
     _object_id_properties = {
+        PACKET_ID_UINT8: "packet_id",  # 0x00
         BATTERY_UINT8_X1: "battery",  # 0x01
         TEMPERATURE_SINT16_X100: "temperature",  # 0x02
         HUMIDITY_UINT16_X100: "humidity",  # 0x03
@@ -233,6 +235,12 @@ class BTHome:
     def local_name(self):
         return self._local_name
 
+    @property
+    def packet_id(self):
+        self._packet_id += 1
+        self._packet_id &= 0xFF  # Truncate to 8-bit max
+        return self._packet_id
+
     # Technically, the functions below could be static methods, but @staticmethod
     # on a dictionary of functions only works with Python >3.10, and MicroPython
     # is based on 3.4. Also, __func__ and __get()__ workarounds throw errors in
@@ -292,6 +300,7 @@ class BTHome:
         return packed_value
 
     _object_id_functions = {
+        PACKET_ID_UINT8: _pack_int8_x1,  # 0x00
         BATTERY_UINT8_X1: _pack_int8_x1,  # 0x01
         TEMPERATURE_SINT16_X100: _pack_int16_x100,  # 0x02
         HUMIDITY_UINT16_X100: _pack_int16_x100,  # 0x03
