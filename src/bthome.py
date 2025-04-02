@@ -76,6 +76,8 @@ class BTHome:
     PRESENCE_BINARY = const(0x25)  # 0 (False = Away) 1 (True = Home)
     PROBLEM_BINARY = const(0x26)  # 0 (False = OK) 1 (True = Problem)
     RUNNING_BINARY = const(0x27)  # 0 (False = Not Running) 1 (True = Running)
+    SAFETY_BINARY = const(0x28)  # 0 (False = Unsafe) 1 (True = Safe)
+    SMOKE_BINARY = const(0x29)  # 0 (False = Clear) 1 (True = Detected)
     HUMIDITY_UINT8_X1 = const(0x2E)  # %
     MOISTURE_UINT8_X1 = const(0x2F)  # %
     COUNT_UINT16_X1 = const(0x3D)
@@ -158,6 +160,8 @@ class BTHome:
         PRESENCE_BINARY: "presence",  # 0x25
         PROBLEM_BINARY: "problem",  # 0x26
         RUNNING_BINARY: "running",  # 0x27
+        SAFETY_BINARY: "safety",  # 0x28
+        SMOKE_BINARY: "smoke",  # 0x29
         HUMIDITY_UINT8_X1: "humidity",  # 0x2E
         MOISTURE_UINT8_X1: "moisture",  # 0x2F
         COUNT_UINT16_X1: "count",  # 0x3D
@@ -252,7 +256,9 @@ class BTHome:
     raw = bytes()
     rotation = 0
     running = False
+    safety = False
     speed = 0
+    smoke = False
     temperature = 0
     text = ""
     timestamp = 0
@@ -378,6 +384,8 @@ class BTHome:
         PRESENCE_BINARY: _pack_binary,
         PROBLEM_BINARY: _pack_binary,
         RUNNING_BINARY: _pack_binary,
+        SAFETY_BINARY: _pack_binary,
+        SMOKE_BINARY: _pack_binary,
         HUMIDITY_UINT8_X1: _pack_int8_x1,
         MOISTURE_UINT8_X1: _pack_int8_x1,
         COUNT_UINT16_X1: _pack_int16_x1,
