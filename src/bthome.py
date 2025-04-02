@@ -73,6 +73,9 @@ class BTHome:
     MOVING_BINARY = const(0x22)  # 0 (False = Not moving) 1 (True = Moving)
     OCCUPANCY_BINARY = const(0x23)  # 0 (False = Clear) 1 (True = Detected)
     PLUG_BINARY = const(0x24)  # 0 (False = Unplugged) 1 (True = Plugged in)
+    PRESENCE_BINARY = const(0x25)  # 0 (False = Away) 1 (True = Home)
+    PROBLEM_BINARY = const(0x26)  # 0 (False = OK) 1 (True = Problem)
+    RUNNING_BINARY = const(0x27)  # 0 (False = Not Running) 1 (True = Running)
     HUMIDITY_UINT8_X1 = const(0x2E)  # %
     MOISTURE_UINT8_X1 = const(0x2F)  # %
     COUNT_UINT16_X1 = const(0x3D)
@@ -152,6 +155,9 @@ class BTHome:
         MOVING_BINARY: "moving",  # 0x22
         OCCUPANCY_BINARY: "occupancy",  # 0x23
         PLUG_BINARY: "plug",  # 0x24
+        PRESENCE_BINARY: "presence",  # 0x25
+        PROBLEM_BINARY: "problem",  # 0x26
+        RUNNING_BINARY: "running",  # 0x27
         HUMIDITY_UINT8_X1: "humidity",  # 0x2E
         MOISTURE_UINT8_X1: "moisture",  # 0x2F
         COUNT_UINT16_X1: "count",  # 0x3D
@@ -235,14 +241,17 @@ class BTHome:
     moving = False
     opening = False
     plug = False
+    presence = False
     pm10 = 0
     pm2_5 = 0
     power = 0
     power_on = False
     precipitation = 0
     pressure = 0
+    problem = False
     raw = bytes()
     rotation = 0
+    running = False
     speed = 0
     temperature = 0
     text = ""
@@ -366,6 +375,9 @@ class BTHome:
         MOVING_BINARY: _pack_binary,
         OCCUPANCY_BINARY: _pack_binary,
         PLUG_BINARY: _pack_binary,
+        PRESENCE_BINARY: _pack_binary,
+        PROBLEM_BINARY: _pack_binary,
+        RUNNING_BINARY: _pack_binary,
         HUMIDITY_UINT8_X1: _pack_int8_x1,
         MOISTURE_UINT8_X1: _pack_int8_x1,
         COUNT_UINT16_X1: _pack_int16_x1,

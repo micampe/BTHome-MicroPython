@@ -35,10 +35,10 @@ Object id,Property,Data type,Factor,Example,Result,Unit
 0x22,moving,uint8 (1 byte),2201,"0 (False = Not moving) 1 (True = Moving)"
 0x23,occupancy,uint8 (1 byte),2301,"0 (False = Clear) 1 (True = Detected)"
 0x24,plug,uint8 (1 byte),2400,"0 (False = Unplugged) 1 (True = Plugged in)"
-
 0x25,presence,uint8 (1 byte),2500,"0 (False = Away) 1 (True = Home)"
 0x26,problem,uint8 (1 byte),2601,"0 (False = OK) 1 (True = Problem)"
 0x27,running,uint8 (1 byte),2701,"0 (False = Not Running) 1 (True = Running)"
+
 0x28,safety,uint8 (1 byte),2800,"0 (False = Unsafe) 1 (True = Safe)"
 0x29,smoke,uint8 (1 byte),2901,"0 (False = Clear) 1 (True = Detected)"
 0x2A,sound,uint8 (1 byte),2A00,"0 (False = Clear) 1 (True = Detected)"
