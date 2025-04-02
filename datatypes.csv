@@ -42,10 +42,8 @@ Object id,Property,Data type,Factor,Example,Result,Unit
 0x29,smoke,uint8 (1 byte),2901,"0 (False = Clear) 1 (True = Detected)"
 0x2A,sound,uint8 (1 byte),2A00,"0 (False = Clear) 1 (True = Detected)"
 0x2B,tamper,uint8 (1 byte),2B00,"0 (False = Off) 1 (True = On)"
-
 0x2C,vibration,uint8 (1 byte),2C01,"0 (False = Clear) 1 (True = Detected)"
 0x2D,window,uint8 (1 byte),2D01,"0 (False = Closed) 1 (True = Open)"
-
 0x2E,humidity,uint8 (1 byte),1,2E23,35,%
 0x2F,moisture,uint8 (1 byte),1,2F23,35,%
 0x3D,count,uint16 (2 bytes),1,3D0960,24585,

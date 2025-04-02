@@ -80,6 +80,8 @@ class BTHome:
     SMOKE_BINARY = const(0x29)  # 0 (False = Clear) 1 (True = Detected)
     SOUND_BINARY = const(0x2A)  # 0 (False = Clear) 1 (True = Detected)
     TAMPER_BINARY = const(0x2B)  # 0 (False = Off) 1 (True = On)
+    VIBRATION_BINARY = const(0x2C)  # 0 (False = Clear) 1 (True = Detected)
+    WINDOW_BINARY = const(0x2D)  # 0 (False = Closed) 1 (True = Open)
     HUMIDITY_UINT8_X1 = const(0x2E)  # %
     MOISTURE_UINT8_X1 = const(0x2F)  # %
     COUNT_UINT16_X1 = const(0x3D)
@@ -166,6 +168,8 @@ class BTHome:
         SMOKE_BINARY: "smoke",  # 0x29
         SOUND_BINARY: "sound",  # 0x2A
         TAMPER_BINARY: "tamper",  # 0x2B
+        VIBRATION_BINARY: "vibration",  # 0x2C
+        WINDOW_BINARY: "window",  # 0x2D
         HUMIDITY_UINT8_X1: "humidity",  # 0x2E
         MOISTURE_UINT8_X1: "moisture",  # 0x2F
         COUNT_UINT16_X1: "count",  # 0x3D
@@ -270,11 +274,13 @@ class BTHome:
     timestamp = 0
     tvoc = 0
     uv_index = 0
+    vibration = False
     voltage = 0
     volume = 0
     volume_flow_rate = 0
     volume_storage = 0
     water = 0
+    window = False
 
     def __init__(self, local_name="BTHome", debug=False):
         local_name = local_name[:10]  # Truncate to fit [^3]
@@ -394,6 +400,8 @@ class BTHome:
         SMOKE_BINARY: _pack_binary,
         SOUND_BINARY: _pack_binary,
         TAMPER_BINARY: _pack_binary,
+        VIBRATION_BINARY: _pack_binary,
+        WINDOW_BINARY: _pack_binary,
         HUMIDITY_UINT8_X1: _pack_int8_x1,
         MOISTURE_UINT8_X1: _pack_int8_x1,
         COUNT_UINT16_X1: _pack_int16_x1,
