@@ -78,6 +78,8 @@ class BTHome:
     RUNNING_BINARY = const(0x27)  # 0 (False = Not Running) 1 (True = Running)
     SAFETY_BINARY = const(0x28)  # 0 (False = Unsafe) 1 (True = Safe)
     SMOKE_BINARY = const(0x29)  # 0 (False = Clear) 1 (True = Detected)
+    SOUND_BINARY = const(0x2A)  # 0 (False = Clear) 1 (True = Detected)
+    TAMPER_BINARY = const(0x2B)  # 0 (False = Off) 1 (True = On)
     HUMIDITY_UINT8_X1 = const(0x2E)  # %
     MOISTURE_UINT8_X1 = const(0x2F)  # %
     COUNT_UINT16_X1 = const(0x3D)
@@ -162,6 +164,8 @@ class BTHome:
         RUNNING_BINARY: "running",  # 0x27
         SAFETY_BINARY: "safety",  # 0x28
         SMOKE_BINARY: "smoke",  # 0x29
+        SOUND_BINARY: "sound",  # 0x2A
+        TAMPER_BINARY: "tamper",  # 0x2B
         HUMIDITY_UINT8_X1: "humidity",  # 0x2E
         MOISTURE_UINT8_X1: "moisture",  # 0x2F
         COUNT_UINT16_X1: "count",  # 0x3D
@@ -259,6 +263,8 @@ class BTHome:
     safety = False
     speed = 0
     smoke = False
+    sound = False
+    tamper = False
     temperature = 0
     text = ""
     timestamp = 0
@@ -386,6 +392,8 @@ class BTHome:
         RUNNING_BINARY: _pack_binary,
         SAFETY_BINARY: _pack_binary,
         SMOKE_BINARY: _pack_binary,
+        SOUND_BINARY: _pack_binary,
+        TAMPER_BINARY: _pack_binary,
         HUMIDITY_UINT8_X1: _pack_int8_x1,
         MOISTURE_UINT8_X1: _pack_int8_x1,
         COUNT_UINT16_X1: _pack_int16_x1,
