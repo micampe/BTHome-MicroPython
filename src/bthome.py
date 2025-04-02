@@ -52,6 +52,8 @@ class BTHome:
     PM2_5_UINT16_X1 = const(0x0D)  # ug/m^3
     PM10_UINT16_X1 = const(0x0E)  # ug/m^3
     GENERIC_BOOLEAN = const(0x0F)  # 0 (False = Off) 1 (True = On)
+    POWER_BINARY = const(0x10)  # 0 (False = Off) 1 (True = On)
+    OPENING_BINARY = const(0x11)  # 0 (False = Closed) 1 (True = Open)
     CO2_UINT16_X1 = const(0x12)  # ppm
     TVOC_UINT16_X1 = const(0x13)  # ug/m^3
     MOISTURE_UINT16_X100 = const(0x14)  # %
@@ -69,6 +71,8 @@ class BTHome:
     MOISTURE_BINARY = const(0x20)  # 0 (False = Dry) 1 (True = Wet)
     MOTION_BINARY = const(0x21)  # 0 (False = Clear) 1 (True = Detected)
     MOVING_BINARY = const(0x22)  # 0 (False = Not moving) 1 (True = Moving)
+    OCCUPANCY_BINARY = const(0x23)  # 0 (False = Clear) 1 (True = Detected)
+    PLUG_BINARY = const(0x24)  # 0 (False = Unplugged) 1 (True = Plugged in)
     HUMIDITY_UINT8_X1 = const(0x2E)  # %
     MOISTURE_UINT8_X1 = const(0x2F)  # %
     COUNT_UINT16_X1 = const(0x3D)
@@ -127,6 +131,8 @@ class BTHome:
         PM2_5_UINT16_X1: "pm2.5",  # 0x0D
         PM10_UINT16_X1: "pm10",  # 0x0E
         GENERIC_BOOLEAN: "generic_boolean",  # 0x0F
+        POWER_BINARY: "power_on",  # 0x10
+        OPENING_BINARY: "opening",  # 0x11
         CO2_UINT16_X1: "co2",  # 0x12
         TVOC_UINT16_X1: "tvoc",  # 0x13
         MOISTURE_UINT16_X100: "moisture",  # 0x14
@@ -144,6 +150,8 @@ class BTHome:
         MOISTURE_BINARY: "moisture_detected",  # 0x20
         MOTION_BINARY: "motion",  # 0x21
         MOVING_BINARY: "moving",  # 0x22
+        OCCUPANCY_BINARY: "occupancy",  # 0x23
+        PLUG_BINARY: "plug",  # 0x24
         HUMIDITY_UINT8_X1: "humidity",  # 0x2E
         MOISTURE_UINT8_X1: "moisture",  # 0x2F
         COUNT_UINT16_X1: "count",  # 0x3D
@@ -225,9 +233,12 @@ class BTHome:
     moisture_detected = False
     motion = False
     moving = False
+    opening = False
+    plug = False
     pm10 = 0
     pm2_5 = 0
     power = 0
+    power_on = False
     precipitation = 0
     pressure = 0
     raw = bytes()
@@ -334,6 +345,8 @@ class BTHome:
         PM2_5_UINT16_X1: _pack_int16_x1,  # 0x0D
         PM10_UINT16_X1: _pack_int16_x1,  # 0x0E
         GENERIC_BOOLEAN: _pack_binary,  # 0x0F
+        POWER_BINARY: _pack_binary,  # 0x10
+        OPENING_BINARY: _pack_binary,  # 0x11
         CO2_UINT16_X1: _pack_int16_x1,  # 0x12
         TVOC_UINT16_X1: _pack_int16_x1,
         MOISTURE_UINT16_X100: _pack_int16_x100,
@@ -351,6 +364,8 @@ class BTHome:
         MOISTURE_BINARY: _pack_binary,
         MOTION_BINARY: _pack_binary,
         MOVING_BINARY: _pack_binary,
+        OCCUPANCY_BINARY: _pack_binary,
+        PLUG_BINARY: _pack_binary,
         HUMIDITY_UINT8_X1: _pack_int8_x1,
         MOISTURE_UINT8_X1: _pack_int8_x1,
         COUNT_UINT16_X1: _pack_int16_x1,

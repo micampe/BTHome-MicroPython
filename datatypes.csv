@@ -14,6 +14,8 @@ Object id,Property,Data type,Factor,Example,Result,Unit
 0x0D,pm2.5,uint16 (2 bytes),1,0D120C,3090,ug/m3
 0x0E,pm10,uint16 (2 bytes),1,0E021C,7170,ug/m3
 0x0F,generic boolean,uint8 (1 byte),0F01,"0 (False = Off) 1 (True = On)"
+0x10,power,uint8 (1 byte),1001,"0 (False = Off) 1 (True = On)"
+0x11,opening,uint8 (1 byte),1100,"0 (False = Closed) 1 (True = Open)"
 0x12,co2,uint16 (2 bytes),1,12E204,1250,ppm
 0x13,tvoc,uint16 (2 bytes),1,133301,307,ug/m3
 0x14,moisture,uint16 (2 bytes),0.01,14020C,30.74,%
@@ -31,11 +33,9 @@ Object id,Property,Data type,Factor,Example,Result,Unit
 0x20,moisture,uint8 (1 byte),2001,"0 (False = Dry) 1 (True = Wet)"
 0x21,motion,uint8 (1 byte),2100,"0 (False = Clear) 1 (True = Detected)"
 0x22,moving,uint8 (1 byte),2201,"0 (False = Not moving) 1 (True = Moving)"
-
 0x23,occupancy,uint8 (1 byte),2301,"0 (False = Clear) 1 (True = Detected)"
-0x11,opening,uint8 (1 byte),1100,"0 (False = Closed) 1 (True = Open)"
 0x24,plug,uint8 (1 byte),2400,"0 (False = Unplugged) 1 (True = Plugged in)"
-0x10,power,uint8 (1 byte),1001,"0 (False = Off) 1 (True = On)"
+
 0x25,presence,uint8 (1 byte),2500,"0 (False = Away) 1 (True = Home)"
 0x26,problem,uint8 (1 byte),2601,"0 (False = OK) 1 (True = Problem)"
 0x27,running,uint8 (1 byte),2701,"0 (False = Not Running) 1 (True = Running)"
