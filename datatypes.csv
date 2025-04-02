@@ -26,12 +26,12 @@ Object id,Property,Data type,Factor,Example,Result,Unit
 0x1B,garage door,uint8 (1 byte),1B01,"0 (False = Closed) 1 (True = Open)"
 0x1C,gas,uint8 (1 byte),1C01,"0 (False = Clear) 1 (True = Detected)"
 0x1D,heat,uint8 (1 byte),1D00,"0 (False = Normal) 1 (True = Hot)"
-
 0x1E,light,uint8 (1 byte),1E01,"0 (False = No light) 1 (True = Light detected)"
 0x1F,lock,uint8 (1 byte),1F01,"0 (False = Locked) 1 (True = Unlocked)"
 0x20,moisture,uint8 (1 byte),2001,"0 (False = Dry) 1 (True = Wet)"
 0x21,motion,uint8 (1 byte),2100,"0 (False = Clear) 1 (True = Detected)"
 0x22,moving,uint8 (1 byte),2201,"0 (False = Not moving) 1 (True = Moving)"
+
 0x23,occupancy,uint8 (1 byte),2301,"0 (False = Clear) 1 (True = Detected)"
 0x11,opening,uint8 (1 byte),1100,"0 (False = Closed) 1 (True = Open)"
 0x24,plug,uint8 (1 byte),2400,"0 (False = Unplugged) 1 (True = Plugged in)"

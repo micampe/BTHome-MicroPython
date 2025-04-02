@@ -64,6 +64,11 @@ class BTHome:
     GARAGE_DOOR_BINARY = const(0x1B)  # 0 (False = Closed) 1 (True = Open)
     GAS_BINARY = const(0x1C)  # 0 (False = Clear) 1 (True = Detected)
     HEAT_BINARY = const(0x1D)  # 0 (False = Normal) 1 (True = Hot)
+    LIGHT_BINARY = const(0x1E)  # 0 (False = No light) 1 (True = Light detected)
+    LOCK_BINARY = const(0x1F)  # 0 (False = Locked) 1 (True = Unlocked)
+    MOISTURE_BINARY = const(0x20)  # 0 (False = Dry) 1 (True = Wet)
+    MOTION_BINARY = const(0x21)  # 0 (False = Clear) 1 (True = Detected)
+    MOVING_BINARY = const(0x22)  # 0 (False = Not moving) 1 (True = Moving)
     HUMIDITY_UINT8_X1 = const(0x2E)  # %
     MOISTURE_UINT8_X1 = const(0x2F)  # %
     COUNT_UINT16_X1 = const(0x3D)
@@ -134,6 +139,11 @@ class BTHome:
         GARAGE_DOOR_BINARY: "garage_door",  # 0x1B
         GAS_BINARY: "gas_detected",  # 0x1C
         HEAT_BINARY: "heat",  # 0x1D
+        LIGHT_BINARY: "light",  # 0x1E
+        LOCK_BINARY: "lock",  # 0x1F
+        MOISTURE_BINARY: "moisture_detected",  # 0x20
+        MOTION_BINARY: "motion",  # 0x21
+        MOVING_BINARY: "moving",  # 0x22
         HUMIDITY_UINT8_X1: "humidity",  # 0x2E
         MOISTURE_UINT8_X1: "moisture",  # 0x2F
         COUNT_UINT16_X1: "count",  # 0x3D
@@ -175,10 +185,13 @@ class BTHome:
     }
 
     # Properties below are updated externally when sensor values are read.
+    # See "Sensor Data" table at https://bthome.io/format/ Property column.
     # There is some overlap in property names in the BTHome format. For
     # example: moisture as in percent and moisture as in detected.
-    # In these cases, the binary property will have "_detected" appended.
-    # See "Sensor Data" table at https://bthome.io/format/ Property column.
+    # In these cases, the binary property will have the description of a
+    # True condition to further describe the property. Examples are:
+    # _charging, in the case of battery; _detected, in the case of gas,
+    #  moisture, or motion.
     acceleration = 0
     battery = 0
     battery_low = False
@@ -205,8 +218,13 @@ class BTHome:
     heat = False
     humidity = 0
     illuminance = 0
+    light = False
+    lock = False
     mass = 0
     moisture = 0
+    moisture_detected = False
+    motion = False
+    moving = False
     pm10 = 0
     pm2_5 = 0
     power = 0
@@ -328,6 +346,11 @@ class BTHome:
         GARAGE_DOOR_BINARY: _pack_binary,
         GAS_BINARY: _pack_binary,
         HEAT_BINARY: _pack_binary,
+        LIGHT_BINARY: _pack_binary,
+        LOCK_BINARY: _pack_binary,
+        MOISTURE_BINARY: _pack_binary,
+        MOTION_BINARY: _pack_binary,
+        MOVING_BINARY: _pack_binary,
         HUMIDITY_UINT8_X1: _pack_int8_x1,
         MOISTURE_UINT8_X1: _pack_int8_x1,
         COUNT_UINT16_X1: _pack_int16_x1,
