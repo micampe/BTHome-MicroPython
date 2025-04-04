@@ -461,7 +461,7 @@ class BTHome:
         )  # indicates a 16-bit service UUID follows
         service_data_bytes += pack("<H", BTHome._SERVICE_UUID16)
         service_data_bytes += pack("B", BTHome._DEVICE_INFO_FLAGS)
-        for object_id in args:
+        for object_id in sorted(args):
             func = BTHome._object_id_functions[object_id]
             property = BTHome._object_id_properties[object_id]
             value = getattr(self, property)
