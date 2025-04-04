@@ -51,6 +51,6 @@ If the device has Bluetooth and can run recent versions of MicroPython, it shoul
 My goal was to create an outdoor sensor to measure temperature, humidity, and illuminance so I could make automation decsions in Home Assistant. I've included nearly the entire list of object_ids described in the [BTHome v2 format](https://bthome.io/format), but those outside of temperature, humidity, and battery level are untested in real world scenarios.
 
 ## How can I help?
-I'm always happy to get bug reports in the [GitHub issues for the project](https://github.com/DavesCodeMusings/BTHome-MicroPython/issues). The more detail you give, the easier it is to find and fix.
+Test, test, test! I'm always happy to get bug reports in the [GitHub issues for the project](https://github.com/DavesCodeMusings/BTHome-MicroPython/issues). The more detail you give, the easier it is to find and fix.
 
 As for enhancements, unless the BTHome format undergoes significant changes (like a v3 release) I can't imagine there's much to add.
