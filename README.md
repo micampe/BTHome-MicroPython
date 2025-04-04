@@ -40,7 +40,7 @@ from bthome import BTHome
 beacon = BTHome("myBeacon")
 beacon.temperature = dht.temperature()
 beacon.humidity = dht.humidity()
-advert = beacon.pack_advertisement(bthome.TEMPERATURE_SINT16, bthome.HUMIDITY_UINT16)
+advert = beacon.pack_advertisement(BTHome.TEMPERATURE_SINT16, BTHome.HUMIDITY_UINT16)
 await aioble.advertise(BLE_ADV_INTERVAL_uS, adv_data=advert, connectable=False)
 ```
 
