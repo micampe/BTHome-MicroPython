@@ -2,12 +2,12 @@
 A MicroPython module to format sensor readings for BTHome BLE advertising payloads.
 
 ## What is it?
-BTHome-MicroPython provides an easy way to send sensor readings, via Bluetooth Low Energy (BLE) advertisements, to home automation systems like Home Assistant. The sample main.py shows how to collect temperature and humidity data and make it available to Home Assistant with the BTHome integration.
-
-The use case I had in mind when creating this is an ESP32 that sits on my front porch and measures outdoor temperature, humidity, and sunlight levels. 
+BTHome-MicroPython provides an easy way to send sensor readings from MicroPython-based microcontrollers, via Bluetooth Low Energy (BLE) advertisements, to home automation systems like Home Assistant that support the BTHome data format. The sample main.py shows how to transmit mocked-up temperature and humidity data in BTHome format using this module.
 
 ## Why should I care?
 While many popular Bluetooth devices can have their stock firmware flashed to use BTHome and therefore easily integrate with Home Assistant, this does not help the hobbyist who wants to create a DIY sensor using an easily learned language like MicroPython. With this module, you can create custom sensors that act as Bluetooth beacons. Where you take it from there is up to your imagination.
+
+The use case I had in mind when creating this is an ESP32 that sits on my front porch and measures outdoor temperature, humidity, and sunlight levels. 
 
 ## Couldn't I just use ESPHome?
 You could, but do you really want a device containing your WiFi credentials in an unsecured location outside your home? I don't. I'd rather broadcast BLE advertisements I can read from indoors. If the device sending them is lost or stolen, I'm out a few dollars, but no data is compromised.
@@ -25,11 +25,11 @@ mpremote connect PORT mip install aioble-peripheral
 Once you've got the modules installed, have a look at the code sample in [main.py](main.py) here in this repository.
 
 Building your own sensor beacon boils down to this...
-1. Import the bthome module
-2. Create a new instance of the BTHome class, passing in the device name you want
-3. Write the sensor readings to the BTHome properties you're using
-4. Call the `pack_advertisement()` method with parameters to indicate what data to broadcast
-5. Send that advertising data to `aioble.advertise()`
+1. Import the bthome module.
+2. Create a new instance of the BTHome class, passing in the device name you want.
+3. Read the sensors and write their values to the BTHome properties you want to communicate.
+4. Call the `pack_advertisement()` method with parameters to indicate what data to broadcast.
+5. Send that advertising data to `aioble.advertise()`.
 
 As MicroPython statements, those steps would be something like this:
 
