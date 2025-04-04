@@ -2,7 +2,9 @@
 A MicroPython module to format sensor readings for BTHome BLE advertising payloads.
 
 ## What is it?
-BTHome-MicroPython provides an easy way to send sensor readings from MicroPython-based microcontrollers, via Bluetooth Low Energy (BLE) advertisements, to home automation systems like Home Assistant that support the BTHome data format. The sample main.py shows how to transmit mocked-up temperature and humidity data in BTHome format using this module.
+BTHome-MicroPython provides an easy way to send sensor readings from MicroPython-based microcontrollers, via Bluetooth Low Energy (BLE) advertisements, to home automation systems like Home Assistant that support the BTHome data format.
+
+The sample main.py shows how to transmit mocked-up temperature and humidity data in BTHome format using this module.
 
 ## Why should I care?
 While many popular Bluetooth devices can have their stock firmware flashed to use BTHome and therefore easily integrate with Home Assistant, this does not help the hobbyist who wants to create a DIY sensor using an easily learned language like MicroPython. With this module, you can create custom sensors that act as Bluetooth beacons. Where you take it from there is up to your imagination.
