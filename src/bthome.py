@@ -26,16 +26,22 @@ class BTHome:
     # Device name used in BLE advertisements.
     _local_name = ""
 
-    # For most sensors, naming convention is:
+    # For most sensors defined below, the naming convention is:
     #   <const_name> ::= <property> "_" <data-type> "_x" <inverse of factor>
     # Example, temperature sint16 0.01 becomes:
     #   TEMPERATURE_SINT16_x100
-    # For binary sensors (0x15 .. 0x2D), naming convention is:
+    # Some properties have no factor, because it doesn't make sense for what's
+    # being communicated. Examples: packet id, button press, firmware version.
+    # The naming convention for these is simply:
+    #   <const_name> ::= <property> "_" <data-type>
+    # Binary sensors also have no factor and are alway represented as an
+    # 8-bit unsigned integer.
+    # For binary sensors (0x15 .. 0x2D), the naming convention is:
     #   <const_name> ::= <property> "_" BINARY
     # Example, "battery charging" becomes:
     #   BATTERY_CHARGING_BINARY
-    # All binary sensors are packed as 8-bit unsigned bytes.
-    # See "Sensor Data" table at https://bthome.io/format/
+    #
+    # See also: "Sensor Data" table at https://bthome.io/format/
     PACKET_ID_UINT8 = const(0x00)
     BATTERY_UINT8_X1 = const(0x01)  # %
     TEMPERATURE_SINT16_X100 = const(0x02)  # °C
@@ -84,6 +90,8 @@ class BTHome:
     WINDOW_BINARY = const(0x2D)  # 0 (False = Closed) 1 (True = Open)
     HUMIDITY_UINT8_X1 = const(0x2E)  # %
     MOISTURE_UINT8_X1 = const(0x2F)  # %
+    BUTTON_UINT8 = const(0x3A)  # 01 = press, 02 = long press, etc.
+    DIMMER_UINT16 = const(0x03A)  # 01xx = rotate left xx steps, 02xx = rotate right xx steps 
     COUNT_UINT16_X1 = const(0x3D)
     COUNT_UINT32_X1 = const(0x3E)
     ROTATION_SINT16_X10 = const(0x3F)  # °
@@ -172,6 +180,8 @@ class BTHome:
         WINDOW_BINARY: "window",  # 0x2D
         HUMIDITY_UINT8_X1: "humidity",  # 0x2E
         MOISTURE_UINT8_X1: "moisture",  # 0x2F
+        BUTTON_UINT8: "button",  # 0x3A
+        DIMMER_UINT16: "dimmer",  # 0x3C
         COUNT_UINT16_X1: "count",  # 0x3D
         COUNT_UINT32_X1: "count",  # 0x3E
         ROTATION_SINT16_X10: "rotation",  # 0x3F
@@ -404,6 +414,8 @@ class BTHome:
         WINDOW_BINARY: _pack_binary,
         HUMIDITY_UINT8_X1: _pack_int8_x1,
         MOISTURE_UINT8_X1: _pack_int8_x1,
+        BUTTON_UINT8: _pack_int8_x1,
+        DIMMER_UINT16: _pack_int16_x1,
         COUNT_UINT16_X1: _pack_int16_x1,
         COUNT_UINT32_X1: _pack_int32_x1,
         ROTATION_SINT16_X10: _pack_int16_x10,
