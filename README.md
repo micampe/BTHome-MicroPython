@@ -1,6 +1,8 @@
 # BTHome-MicroPython
 A MicroPython module to format sensor readings for BTHome BLE advertising payloads.
 
+[![Build BTHome-MicroPython](https://github.com/DavesCodeMusings/BTHome-MicroPython/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/DavesCodeMusings/BTHome-MicroPython/actions/workflows/build.yml)
+
 ## What is it?
 BTHome-MicroPython provides an easy way to send sensor readings from MicroPython-based microcontrollers, via Bluetooth Low Energy (BLE) advertisements, to home automation systems like Home Assistant that support the BTHome data format.
 
