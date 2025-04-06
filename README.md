@@ -58,7 +58,11 @@ My goal was to create an outdoor sensor to measure temperature, humidity, and il
 Sorry. Although [BTHome offers encrypted communication](https://bthome.io/encryption/), the [MicroPython AES encryption](https://docs.micropython.org/en/latest/library/cryptolib.html) implementation does not support the CCM mode required for BTHome encryption.
 
 ## What other caveats should I be aware of?
-The number of bytes reserved for BLE advertising is extremely limited. If you try to pack too much data, you'll get an exception.
+The number of bytes reserved for BLE advertising is extremely limited. You get 31 bytes. That's it. And you have to subtract things like advertising flags, service UUID, and length bytes from that total. So in the end you get 17 bytes to split between device name and sensor data.
+
+Because of this, device name is silently truncted to 10 characters in length. If you try naming your device _MySuperSensor_, you will end up with _MySuperSen_ instead.
+
+If you try to pack too much sensor data, you'll get an exception. For example, using all 10 characters for a device name like _DIY-Sensor_ and communiating BATTERY_UINT8_X1, TEMPERATURE_SINT16_X100, HUMIDITY_UINT16_X100, and PRESSURE_UINT24_X100 will be enough to exceed the allowable advertising payload size and result in an exception. 
 
 ```
 ValueError: BLE advertisement exceeds max length
