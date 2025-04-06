@@ -51,13 +51,13 @@ See [main.py](main.py) for a more robust example.
 ## Will it run on Microcontroller X?
 If the device has Bluetooth and can run recent versions of MicroPython, it should work.
 
-## What about encryption?
-Sorry. Although [BTHome offers encrypted communication](https://bthome.io/encryption/), the [MicroPython AES encryption](https://docs.micropython.org/en/latest/library/cryptolib.html) implementation does not support the CCM mode required for BTHome encryption.
-
 ## Can it do more than temperature and humidity?
 My goal was to create an outdoor sensor to measure temperature, humidity, and illuminance so I could make automation decsions in Home Assistant. I've included nearly the entire list of object_ids described in the [BTHome v2 format](https://bthome.io/format), but those outside of temperature, humidity, and battery level are untested in real world scenarios.
 
-## What caveats should I be aware of?
+## What about encryption?
+Sorry. Although [BTHome offers encrypted communication](https://bthome.io/encryption/), the [MicroPython AES encryption](https://docs.micropython.org/en/latest/library/cryptolib.html) implementation does not support the CCM mode required for BTHome encryption.
+
+## What other caveats should I be aware of?
 The number of bytes reserved for BLE advertising is extremely limited. If you try to pack too much data, you'll get an exception.
 
 ```
