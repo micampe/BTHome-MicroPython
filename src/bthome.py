@@ -21,6 +21,9 @@ class BTHome:
         0x40  # Currently hardcoded as: no encryption, regular updates, version 2
     )
 
+    # Advertising size limit
+    _ADVERT_PAYLOAD_MAX_BYTES = 31  # [^3]
+
     debug = False
 
     # Device name used in BLE advertisements.
@@ -293,7 +296,7 @@ class BTHome:
     window = False
 
     def __init__(self, local_name="BTHome", debug=False):
-        local_name = local_name[:10]  # Truncate to fit [^3]
+        local_name = local_name[:10]  # Truncate to fit [^4]
         self._local_name = local_name
         self.debug = debug
 
@@ -310,7 +313,7 @@ class BTHome:
     # Technically, the functions below could be static methods, but @staticmethod
     # on a dictionary of functions only works with Python >3.10, and MicroPython
     # is based on 3.4. Also, __func__ and __get()__ workarounds throw errors in
-    # MicroPython. [^4]
+    # MicroPython. [^5]
 
     # Binary flag (true/false, on/off)
     def _pack_binary(self, object_id, value):
@@ -481,6 +484,9 @@ class BTHome:
         advertisement_bytes += self._pack_service_data(*args)
         if self.debug:
             print("BLE Advertisement:", advertisement_bytes.hex().upper())
+            print("Advertisement Len:", len(advertisement_bytes))
+        if len(advertisement_bytes) > BTHome._ADVERT_PAYLOAD_MAX_BYTES:
+            raise ValueError("BLE advertisement exceeds max length")
         return advertisement_bytes
 
 
@@ -502,5 +508,6 @@ if __name__ == "__main__":
 
 # [^1]: https://community.silabs.com/s/article/kba-bt-0201-bluetooth-advertising-data-basics
 # [^2]: https://bthome.io/images/License_Statement_-_BTHOME.pdf
-# [^3]: https://community.st.com/t5/stm32-mcus-wireless/ble-name-advertising/m-p/254711/highlight/true#M10645
-# [^4]: https://stackoverflow.com/questions/41921255/staticmethod-object-is-not-callable
+# [^3]: https://github.com/orgs/micropython/discussions/12701
+# [^4]: https://community.st.com/t5/stm32-mcus-wireless/ble-name-advertising/m-p/254711/highlight/true#M10645
+# [^5]: https://stackoverflow.com/questions/41921255/staticmethod-object-is-not-callable
