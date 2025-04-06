@@ -57,6 +57,15 @@ Sorry. Although [BTHome offers encrypted communication](https://bthome.io/encryp
 ## Can it do more than temperature and humidity?
 My goal was to create an outdoor sensor to measure temperature, humidity, and illuminance so I could make automation decsions in Home Assistant. I've included nearly the entire list of object_ids described in the [BTHome v2 format](https://bthome.io/format), but those outside of temperature, humidity, and battery level are untested in real world scenarios.
 
+## What caveats should I be aware of?
+The number of bytes reserved for BLE advertising is extremely limited. If you try to pack too much data, you'll get an exception.
+
+```
+ValueError: BLE advertisement exceeds max length
+```
+
+If this happens, use the debugging output to determine the length of your advertising payload. You may be able to shorten the device name or limit the number of object IDs you're communicating to make it fit. 
+
 ## How can I help?
 Test, test, test! I'm always happy to get bug reports in the [GitHub issues for the project](https://github.com/DavesCodeMusings/BTHome-MicroPython/issues). The more detail you give, the easier it is to find and fix.
 
