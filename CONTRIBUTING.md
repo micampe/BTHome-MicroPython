@@ -1,5 +1,5 @@
 # Contributing
-Also know as how can you help?
+Also known as how can you help?
 
 ## Testing
 The vast majority of BTHome properties have been incorporated into the module. But in my projects, I only use a handful of them. Which means many are untested under real-world conditions. If you're using BTHome-MicroPython in a project and something's not quite right, please fill out a bug report in the [GitLab issues](https://github.com/DavesCodeMusings/BTHome-MicroPython/issues).
