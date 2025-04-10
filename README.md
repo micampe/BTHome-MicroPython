@@ -26,7 +26,7 @@ mpremote connect PORT mip install github:DavesCodeMusings/BTHome-MicroPython
 mpremote connect PORT mip install aioble-peripheral
 ```
 
-Once you've got the modules installed, have a look at the code sample in [main.py](main.py) here in this repository.
+Once you've got the modules installed, have a look at the code sample in [main.py](src/main.py) here in this repository.
 
 Building your own sensor beacon boils down to this...
 1. Import the bthome module.
@@ -46,7 +46,7 @@ advert = beacon.pack_advertisement(BTHome.TEMPERATURE_SINT16, BTHome.HUMIDITY_UI
 await aioble.advertise(BLE_ADV_INTERVAL_uS, adv_data=advert, connectable=False)
 ```
 
-See [main.py](main.py) for a more robust example.
+See [main.py](src/main.py) for a more robust example.
 
 ## Will it run on Microcontroller X?
 If the device has Bluetooth and can run recent versions of MicroPython, it should work.
