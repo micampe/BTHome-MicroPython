@@ -498,10 +498,16 @@ class BTHome:
         else:
             flags |= self._INTERVAL_ADVERTISING_FLAG
         service_data_bytes += pack("B", flags)
-        for object_id in sorted(args):
+        args = sorted(args, key = lambda x: x if isinstance(x, int) else x[0])
+        for object_id in args:
+            if isinstance(object_id, tuple):
+                value = object_id[1]
+                object_id = object_id[0]
+                property = BTHome._object_id_properties[object_id]
+            else:
+                property = BTHome._object_id_properties[object_id]
+                value = getattr(self, property)
             func = BTHome._object_id_functions[object_id]
-            property = BTHome._object_id_properties[object_id]
-            value = getattr(self, property)
             packed_representation = func(self, object_id, value)
             if self.debug:
                 print("Using function:", func)
