@@ -30,8 +30,8 @@ class BTHome:
     _local_name = ""
 
     # Whether the device sends updates at regular intervals or on a trigger like a button.
-    _interval_advertising = True
-    _INTERVAL_ADVERTISING_FLAG = 0x4
+    _trigger_based = False
+    _TRIGGER_BASED_FLAG = 0x4
 
     # For most sensors defined below, the naming convention is:
     #   <const_name> ::= <property> "_" <data-type> "_x" <inverse of factor>
@@ -314,11 +314,11 @@ class BTHome:
     button = 0
     dimmer = 0
 
-    def __init__(self, local_name="BTHome", interval_advertising=True, debug=False):
+    def __init__(self, local_name="BTHome", trigger_based=False, debug=False):
         local_name = local_name[:10]  # Truncate to fit [^4]
         self._local_name = local_name
         self._packet_id = 0
-        self._interval_advertising = interval_advertising
+        self._trigger_based = trigger_based
         self.debug = debug
 
     @property
@@ -493,10 +493,10 @@ class BTHome:
         )  # indicates a 16-bit service UUID follows
         service_data_bytes += pack("<H", BTHome._SERVICE_UUID16)
         flags = BTHome._DEVICE_INFO_FLAGS
-        if self._interval_advertising:
-            flags &= ~self._INTERVAL_ADVERTISING_FLAG
+        if self._trigger_based:
+            flags |= self._TRIGGER_BASED_FLAG
         else:
-            flags |= self._INTERVAL_ADVERTISING_FLAG
+            flags &= ~self._TRIGGER_BASED_FLAG
         service_data_bytes += pack("B", flags)
         args = sorted(args, key = lambda x: x if isinstance(x, int) else x[0])
         for object_id in args:

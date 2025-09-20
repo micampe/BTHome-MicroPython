@@ -68,7 +68,7 @@ a hint to the receiver that the device might not be sending advertisements for
 a long time:
 
 ```
-beacon = BTHome("myBeacon", interval_advertising=False)
+beacon = BTHome("myBeacon", trigger_based=True)
 ```
 
 ## Will it run on Microcontroller X?
