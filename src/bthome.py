@@ -485,6 +485,14 @@ class BTHome:
         CHANNEL_UINT8_X1: _pack_int8_x1
     }
 
+    # Sort the packet object ids or tuples while preserving original order
+    def _sort_packet_objects(self, args):
+        args = sorted(enumerate(args), key=lambda ix: (
+            ix[1] if isinstance(ix[1], int) else ix[1][0],
+            ix[0]
+        ))
+        return [x[1] for x in args]
+
     # Concatenate an arbitrary number of sensor readings using parameters
     # of sensor data constants to indicate what's to be included.
     def _pack_service_data(self, *args):
@@ -498,8 +506,7 @@ class BTHome:
         else:
             flags &= ~self._TRIGGER_BASED_FLAG
         service_data_bytes += pack("B", flags)
-        args = sorted(args, key = lambda x: x if isinstance(x, int) else x[0])
-        for object_id in args:
+        for object_id in self._sort_packet_objects(args):
             if isinstance(object_id, tuple):
                 value = object_id[1]
                 object_id = object_id[0]
